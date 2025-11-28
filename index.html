@@ -1,23 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Felipe & Olga | The Wedding</title>
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-  <!-- Typography (Playfair Display + Manrope) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
 
+  <!-- ✅ Loader fail-safe: NEVER wait for window.load -->
   <script>
+    (function () {
+      function hideLoader() {
+        const loader = document.getElementById('loader');
+        if (!loader) return;
+        loader.style.transition = 'opacity 450ms ease';
+        loader.style.opacity = '0';
+        loader.style.pointerEvents = 'none';
+        setTimeout(() => loader.remove(), 480);
+      }
+      document.addEventListener('DOMContentLoaded', hideLoader);
+      setTimeout(hideLoader, 2200);
+      window.__hideLoader = hideLoader;
+    })();
+  </script>
+
+  <!-- Tailwind config BEFORE tailwind script -->
+  <script>
+    tailwind = window.tailwind || {};
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -26,97 +38,151 @@
           fontFamily: {
             serif: ['"Playfair Display"', 'serif'],
             sans: ['Manrope', 'system-ui', 'sans-serif'],
-          },
-          backgroundImage: {
-            'hero-pattern': "url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2669&auto=format&fit=crop')",
           }
         }
       }
     }
   </script>
 
+  <!-- Load CDN scripts without blocking rendering -->
+  <script defer src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
   <style>
-    :root {
-      --bg: #f6f3ee;
-      --surface: rgba(255, 255, 255, 0.60);
-      --surface-strong: rgba(255, 255, 255, 0.78);
-      --border: rgba(15, 17, 16, 0.14);
-      --text: #0f1110;
-      --muted: rgba(15, 17, 16, 0.62);
-      --muted2: rgba(15, 17, 16, 0.42);
-      --input-border: rgba(15, 17, 16, 0.22);
-      --input-focus: rgba(15, 17, 16, 0.75);
-      --vignette-alpha: 0.20;
-      --grain-opacity: 0.04;
+    :root{
+      --bg:#f6f3ee;
+      --surface:rgba(255,255,255,0.65);
+      --surface-strong:rgba(255,255,255,0.82);
+      --border:rgba(15,17,16,0.14);
+      --text:#0f1110;
+      --muted:rgba(15,17,16,0.62);
+      --muted2:rgba(15,17,16,0.42);
+      --input-border:rgba(15,17,16,0.22);
+      --input-focus:rgba(15,17,16,0.75);
+      --vignette-alpha:0.18;
+      --grain-opacity:0.04;
+
+      /* ✅ HERO: use the original first image in BOTH modes */
+      --hero-bg: url("https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2669&auto=format&fit=crop");
+
+      /* Light mode: very subtle grading */
+      --hero-filter: brightness(1) saturate(0.95) contrast(1.02);
+      --hero-overlay-top: rgba(0,0,0,0.40);
+      --hero-overlay-mid: rgba(0,0,0,0.24);
+      --hero-overlay-bot: rgba(0,0,0,0.52);
+      --hero-gold-glow: rgba(168,159,145,0.18);
     }
 
-    html.dark {
-      --bg: #0f1110;
-      --surface: rgba(0, 0, 0, 0.28);
-      --surface-strong: rgba(0, 0, 0, 0.42);
-      --border: rgba(255, 255, 255, 0.12);
-      --text: #e8e6e1;
-      --muted: rgba(232, 230, 225, 0.68);
-      --muted2: rgba(232, 230, 225, 0.46);
-      --input-border: rgba(255, 255, 255, 0.22);
-      --input-focus: rgba(232, 230, 225, 0.90);
-      --vignette-alpha: 0.60;
-      --grain-opacity: 0.05;
+    html.dark{
+      --bg:#0f1110;
+      --surface:rgba(0,0,0,0.30);
+      --surface-strong:rgba(0,0,0,0.44);
+      --border:rgba(255,255,255,0.12);
+      --text:#e8e6e1;
+      --muted:rgba(232,230,225,0.68);
+      --muted2:rgba(232,230,225,0.46);
+      --input-border:rgba(255,255,255,0.22);
+      --input-focus:rgba(232,230,225,0.90);
+      --vignette-alpha:0.60;
+      --grain-opacity:0.05;
+
+      /* ✅ Dark mode: make it feel like your first version (cinematic + darker) */
+      --hero-filter: brightness(0.55) saturate(0.75) contrast(1.10);
+      --hero-overlay-top: rgba(0,0,0,0.70);
+      --hero-overlay-mid: rgba(0,0,0,0.45);
+      --hero-overlay-bot: rgba(0,0,0,0.78);
+      --hero-gold-glow: rgba(168,159,145,0.20);
     }
 
-    body { background-color: var(--bg); color: var(--text); overflow-x: hidden; }
-    html { scroll-behavior: smooth; }
-    ::selection { background: #a89f91; color: #0f1110; }
+    html { scroll-behavior:smooth; }
+    body{ margin:0; background:var(--bg); color:var(--text); overflow-x:hidden; }
+    ::selection{ background:#a89f91; color:#0f1110; }
 
-    .parallax-bg {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+    .parallax-bg{
+      background-image: var(--hero-bg);
+      background-attachment:fixed;
+      background-position:center;
+      background-repeat:no-repeat;
+      background-size:cover;
+      filter: var(--hero-filter);
+      will-change: transform, opacity, filter;
     }
-    @media (max-width: 768px) { .parallax-bg { background-attachment: scroll; } }
+    @media (max-width: 768px){ .parallax-bg{ background-attachment:scroll; } }
 
-    .grain-overlay {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
-      opacity: var(--grain-opacity);
-      z-index: 40;
+    .grain-overlay{
+      position:fixed; inset:0; pointer-events:none; z-index:40;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+      opacity:var(--grain-opacity);
     }
 
-    .input-line {
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid var(--input-border);
-      color: var(--text);
-      padding: 10px 0;
-      width: 100%;
-      transition: border-color 0.35s ease;
+    .vignette::before{
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:30;
+      background:radial-gradient(circle at center, transparent 42%, rgba(0,0,0,var(--vignette-alpha)) 100%);
     }
-    .input-line:focus { outline: none; border-bottom: 1px solid var(--input-focus); }
 
-    #loader {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 100;
-      display: flex;
-      justify-content: center;
+    /* Navbar controls: consistent height + spacing */
+    .pill{ border:1px solid var(--border); background:var(--surface); backdrop-filter: blur(12px); }
+    .control{
+      height: 40px;
+      display: inline-flex;
       align-items: center;
-      opacity: 1;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      border-radius: 9999px;
+      padding: 0 12px;
+      color: var(--text);
+      transition: opacity 180ms ease;
+      white-space: nowrap;
     }
+    .control:hover{ opacity: 0.92; }
 
-    .vignette::before {
-      content: "";
-      position: fixed;
-      inset: 0;
+    .select-wrap{
+      position: relative;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .select-wrap select{
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      height: 40px;
+      padding: 0 36px 0 12px;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      outline: none;
+      backdrop-filter: blur(12px);
+    }
+    .select-wrap svg{
+      position:absolute;
+      right: 12px;
+      width: 14px;
+      height: 14px;
       pointer-events: none;
-      background: radial-gradient(circle at center, transparent 42%, rgba(0,0,0,var(--vignette-alpha)) 100%);
-      z-index: 30;
+      opacity: 0.75;
+      color: var(--text);
     }
 
-    .pill { border: 1px solid var(--border); background: var(--surface); backdrop-filter: blur(12px); }
+    .input-line{
+      background:transparent; border:none; border-bottom:1px solid var(--input-border);
+      color:var(--text); padding:10px 0; width:100%;
+      transition:border-color .25s ease;
+    }
+    .input-line:focus{ outline:none; border-bottom:1px solid var(--input-focus); }
+
+    #loader{
+      position:fixed; inset:0; z-index:100;
+      background:var(--bg);
+      display:flex; align-items:center; justify-content:center;
+      opacity:1;
+    }
   </style>
 </head>
 
@@ -126,60 +192,51 @@
   <!-- Loader -->
   <div id="loader">
     <div class="text-center">
-      <h1 class="font-serif text-3xl tracking-[0.22em] text-felipe-gold uppercase animate-pulse">F &amp; O</h1>
+      <h1 class="font-serif text-3xl tracking-[0.22em] uppercase" style="color:#a89f91;">
+        F &amp; O
+      </h1>
     </div>
   </div>
 
-  <!-- ✅ Navbar is visible by default now -->
-  <nav class="fixed w-full z-50 top-0 left-0 px-6 md:px-10 pt-6 md:pt-10" id="navbar">
+  <!-- Navbar -->
+  <nav class="fixed w-full z-50 top-0 left-0 px-5 md:px-10 pt-5 md:pt-8" id="navbar">
     <div class="mx-auto max-w-6xl flex items-center justify-between gap-3 px-4 py-3 rounded-full pill">
       <div class="text-xs tracking-[0.2em] uppercase" style="color:var(--text)">
         <span data-i18n="est">Est.</span> 2026
       </div>
 
       <div class="flex items-center gap-2 md:gap-3">
-        <!-- Language dropdown (EN/ES/PL) -->
-        <select
-          id="langSelect"
-          class="text-xs tracking-[0.16em] uppercase px-3 py-2 rounded-full pill outline-none"
-          style="color:var(--text)"
-          aria-label="Language"
-        >
-          <option value="en">EN</option>
-          <option value="es">ES</option>
-          <option value="pl">PL</option>
-        </select>
+        <!-- Language -->
+        <div class="select-wrap" aria-label="Language switcher">
+          <select id="langSelect">
+            <option value="en">EN</option>
+            <option value="es">ES</option>
+            <option value="pl">PL</option>
+          </select>
+          <!-- chevron -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
+          </svg>
+        </div>
 
-        <!-- Dark/Light toggle -->
-        <button
-          id="themeToggle"
-          type="button"
-          class="px-3 py-2 rounded-full pill hover:opacity-90 transition"
-          aria-label="Toggle theme"
-          title="Toggle theme"
-          style="color:var(--text)"
-        >
-          <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <!-- Dark/Light toggle (icons, no emoji) -->
+        <button id="themeToggle" type="button" class="control" aria-label="Toggle theme" title="Toggle theme">
+          <!-- Sun -->
+          <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
             <circle cx="12" cy="12" r="4"></circle>
             <path d="M12 2v2"></path><path d="M12 20v2"></path>
             <path d="M4.93 4.93l1.41 1.41"></path><path d="M17.66 17.66l1.41 1.41"></path>
             <path d="M2 12h2"></path><path d="M20 12h2"></path>
             <path d="M4.93 19.07l1.41-1.41"></path><path d="M17.66 6.34l1.41-1.41"></path>
           </svg>
-          <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <!-- Moon -->
+          <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
         </button>
 
         <!-- RSVP -->
-        <button
-          type="button"
-          class="text-xs tracking-[0.2em] uppercase px-4 py-2 rounded-full pill hover:opacity-90 transition"
-          onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})"
-          style="color:var(--text)"
-        >
+        <button type="button" class="control text-xs tracking-[0.2em] uppercase px-4" onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})">
           <span data-i18n="rsvp">RSVP</span>
         </button>
       </div>
@@ -188,26 +245,32 @@
 
   <!-- Hero -->
   <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
-    <div class="absolute inset-0 z-0 opacity-75 scale-105 bg-hero-pattern parallax-bg" id="hero-image"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/55 z-10"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(168,159,145,0.22),_transparent_60%)] z-10"></div>
+    <div class="absolute inset-0 z-0 opacity-85 scale-105 parallax-bg" id="hero-image"></div>
+
+    <!-- Overlays (now theme-controlled via CSS vars) -->
+    <div class="absolute inset-0 z-10"
+         style="background: linear-gradient(to bottom, var(--hero-overlay-top), var(--hero-overlay-mid), var(--hero-overlay-bot));">
+    </div>
+    <div class="absolute inset-0 z-10"
+         style="background: radial-gradient(circle at top, var(--hero-gold-glow), transparent 60%);">
+    </div>
 
     <div class="relative z-20 w-full px-6">
       <div class="mx-auto max-w-3xl text-center">
         <div class="reveal-text inline-block rounded-2xl px-8 py-10 md:px-12 md:py-12"
              style="border:1px solid var(--border); background:var(--surface); backdrop-filter: blur(14px);">
-          <p class="font-sans text-[0.65rem] md:text-xs tracking-[0.32em] uppercase text-felipe-gold/90" data-i18n="saveTheDate">
+          <p class="font-sans text-[0.65rem] md:text-xs tracking-[0.32em] uppercase" style="color:#a89f91" data-i18n="saveTheDate">
             Save the date
           </p>
 
           <h1 class="mt-7 font-serif text-5xl md:text-7xl leading-none tracking-[0.01em]" style="color:var(--text)">
-            Felipe <span class="italic text-felipe-gold/85">&amp;</span> Olga
+            Felipe <span class="italic" style="color:rgba(168,159,145,0.9)">&amp;</span> Olga
           </h1>
 
           <div class="mt-7 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 font-sans text-[0.65rem] md:text-[0.75rem] tracking-[0.26em] uppercase"
                style="color:var(--muted)">
             <span data-i18n="heroDate">08 August 2026</span>
-            <span class="hidden md:inline w-10 h-px bg-gradient-to-r from-transparent via-felipe-gold/80 to-transparent"></span>
+            <span class="hidden md:inline w-10 h-px bg-gradient-to-r from-transparent via-[#a89f91]/80 to-transparent"></span>
             <span data-i18n="heroCountry">Poland</span>
           </div>
         </div>
@@ -218,7 +281,7 @@
     <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
       <div class="flex flex-col items-center gap-3" style="color:var(--muted)">
         <span class="font-sans text-[0.6rem] tracking-[0.35em] uppercase" data-i18n="scroll">Scroll</span>
-        <div class="w-[1px] h-12 bg-gradient-to-b from-felipe-gold/80 to-transparent animate-pulse"></div>
+        <div class="w-[1px] h-12 bg-gradient-to-b from-[#a89f91]/80 to-transparent animate-pulse"></div>
       </div>
     </div>
   </section>
@@ -229,10 +292,10 @@
       <h2 class="font-serif text-3xl md:text-5xl leading-tight mb-8" style="color:var(--text)" data-i18n="quote">
         "We loved with a love that was more than love."
       </h2>
-      <p class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-felipe-gold" data-i18n="quoteAuthor">
+      <p class="font-sans text-[0.7rem] tracking-[0.25em] uppercase" style="color:#a89f91" data-i18n="quoteAuthor">
         — Edgar Allan Poe
       </p>
-      <div class="w-px h-24 bg-gradient-to-b from-felipe-gold to-transparent mx-auto mt-12"></div>
+      <div class="w-px h-24 bg-gradient-to-b from-[#a89f91] to-transparent mx-auto mt-12"></div>
     </div>
   </section>
 
@@ -240,21 +303,21 @@
   <section class="relative min-h-screen flex flex-col md:flex-row" style="background:var(--bg)">
     <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative overflow-hidden">
       <div class="absolute inset-0 bg-cover bg-center transition-transform duration-[1400ms] hover:scale-105"
-           style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2670&auto=format&fit=crop');"></div>
-      <div class="absolute inset-0 bg-black/25"></div>
+           style="background-image:url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2670&auto=format&fit=crop');"></div>
+      <div class="absolute inset-0 bg-black/20"></div>
     </div>
 
     <div class="w-full md:w-1/2 flex flex-col justify-center p-12 md:p-24"
          style="background:var(--surface-strong); border-left:1px solid var(--border);">
       <div class="scroll-trigger space-y-12">
         <div>
-          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-felipe-gold mb-4" data-i18n="whenTitle">The When</h3>
+          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-4" style="color:#a89f91" data-i18n="whenTitle">The When</h3>
           <p class="font-serif text-3xl md:text-4xl mb-2" style="color:var(--text)" data-i18n="whenDate">August 8th, 2026</p>
           <p class="font-sans text-xs font-light" style="color:var(--muted)" data-i18n="whenTime">Ceremony begins at 4:00 PM</p>
         </div>
 
         <div>
-          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-felipe-gold mb-4" data-i18n="whereTitle">The Where</h3>
+          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-4" style="color:#a89f91" data-i18n="whereTitle">The Where</h3>
           <p class="font-serif text-3xl md:text-4xl mb-2" style="color:var(--text)" data-i18n="whereCountry">Poland</p>
           <p class="font-sans text-sm font-light" style="color:var(--muted)" data-i18n="whereVenue">City &amp; venue to be confirmed.</p>
           <p class="font-sans text-[0.7rem] mt-2 italic" style="color:var(--muted2)" data-i18n="whereMore">
@@ -266,10 +329,9 @@
   </section>
 
   <!-- RSVP -->
-  <section id="rsvp" class="relative py-32 px-4 md:px-0 border-t"
-           style="background:var(--bg); border-color:var(--border)">
+  <section id="rsvp" class="relative py-32 px-4 md:px-0 border-t" style="background:var(--bg); border-color:var(--border)">
     <div class="max-w-xl mx-auto text-center scroll-trigger">
-      <span class="font-sans text-[0.7rem] tracking-[0.3em] uppercase text-felipe-gold mb-4 block" data-i18n="joinUs">Join Us</span>
+      <span class="font-sans text-[0.7rem] tracking-[0.3em] uppercase mb-4 block" style="color:#a89f91" data-i18n="joinUs">Join Us</span>
       <h2 class="font-serif text-5xl md:text-6xl mb-12" style="color:var(--text)" data-i18n="kindredSpirits">Kindred Spirits</h2>
 
       <form id="rsvpForm" class="space-y-12 text-left">
@@ -277,22 +339,20 @@
           <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-2" style="color:var(--muted2)">
             <span data-i18n="nameLabel">Your Name</span>
           </label>
-          <input type="text" required class="input-line font-serif text-2xl"
-                 data-i18n-placeholder="namePlaceholder" placeholder="Enter your full name" />
+          <input type="text" required class="input-line font-serif text-2xl" data-i18n-placeholder="namePlaceholder" placeholder="Enter your full name" />
         </div>
 
         <div class="group">
           <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-2" style="color:var(--muted2)">
             <span data-i18n="emailLabel">Email Address</span>
           </label>
-          <input type="email" required class="input-line font-serif text-2xl"
-                 data-i18n-placeholder="emailPlaceholder" placeholder="Where can we reach you?" />
+          <input type="email" required class="input-line font-serif text-2xl" data-i18n-placeholder="emailPlaceholder" placeholder="Where can we reach you?" />
         </div>
 
         <div class="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center pt-8">
           <label class="flex items-center gap-3 cursor-pointer group">
             <input type="radio" name="attendance" value="yes" class="peer sr-only" required>
-            <span class="w-4 h-4 rounded-full transition-all" style="border:1px solid #a89f91"></span>
+            <span class="w-4 h-4 border rounded-full peer-checked:bg-[#a89f91] transition-all" style="border-color:#a89f91"></span>
             <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase transition-colors" style="color:var(--muted)">
               <span data-i18n="accept">Joyfully Accept</span>
             </span>
@@ -300,7 +360,7 @@
 
           <label class="flex items-center gap-3 cursor-pointer group">
             <input type="radio" name="attendance" value="no" class="peer sr-only">
-            <span class="w-4 h-4 rounded-full transition-all" style="border:1px solid #a89f91"></span>
+            <span class="w-4 h-4 border rounded-full peer-checked:bg-[#a89f91] transition-all" style="border-color:#a89f91"></span>
             <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase transition-colors" style="color:var(--muted)">
               <span data-i18n="decline">Regretfully Decline</span>
             </span>
@@ -310,13 +370,13 @@
         <div class="text-center pt-12">
           <button type="submit" class="font-serif italic text-xl md:text-2xl transition-colors duration-500 relative group" style="color:var(--text)">
             <span data-i18n="send">Send Confirmation</span>
-            <span class="absolute -bottom-2 left-0 w-0 h-px bg-felipe-gold transition-all duration-500 group-hover:w-full"></span>
+            <span class="absolute -bottom-2 left-0 w-0 h-px transition-all duration-500 group-hover:w-full" style="background:#a89f91"></span>
           </button>
         </div>
       </form>
 
       <div id="successMessage" class="hidden pt-12">
-        <p class="font-serif text-3xl text-felipe-gold italic" data-i18n="thanks">Thank you, we&apos;ll see you in Poland.</p>
+        <p class="font-serif text-3xl italic" style="color:#a89f91" data-i18n="thanks">Thank you, we&apos;ll see you in Poland.</p>
       </div>
     </div>
   </section>
@@ -328,163 +388,152 @@
   </footer>
 
   <script>
-    const htmlEl = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    const iconSun = document.getElementById('iconSun');
-    const iconMoon = document.getElementById('iconMoon');
+    document.addEventListener('DOMContentLoaded', () => {
+      // THEME
+      const htmlEl = document.documentElement;
+      const toggle = document.getElementById('themeToggle');
+      const iconSun = document.getElementById('iconSun');
+      const iconMoon = document.getElementById('iconMoon');
 
-    function applyTheme(theme) {
-      const isDark = theme === 'dark';
-      htmlEl.classList.toggle('dark', isDark);
-      localStorage.setItem('theme', theme);
-
-      iconSun.style.display = isDark ? 'inline-block' : 'none';
-      iconMoon.style.display = isDark ? 'none' : 'inline-block';
-    }
-
-    function initTheme() {
-      const stored = localStorage.getItem('theme');
-      if (stored === 'dark' || stored === 'light') return applyTheme(stored);
-      const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
-      applyTheme(prefersDark ? 'dark' : 'light');
-    }
-
-    themeToggle.addEventListener('click', () => {
-      applyTheme(htmlEl.classList.contains('dark') ? 'light' : 'dark');
-    });
-
-    const langSelect = document.getElementById('langSelect');
-
-    const translations = {
-      en: {
-        est: "Est.",
-        rsvp: "RSVP",
-        saveTheDate: "Save the date",
-        heroDate: "08 August 2026",
-        heroCountry: "Poland",
-        scroll: "Scroll",
-        quote: '"We loved with a love that was more than love."',
-        quoteAuthor: "— Edgar Allan Poe",
-        whenTitle: "The When",
-        whenDate: "August 8th, 2026",
-        whenTime: "Ceremony begins at 4:00 PM",
-        whereTitle: "The Where",
-        whereCountry: "Poland",
-        whereVenue: "City & venue to be confirmed.",
-        whereMore: "More details and formal invitations to follow.",
-        joinUs: "Join Us",
-        kindredSpirits: "Kindred Spirits",
-        nameLabel: "Your Name",
-        namePlaceholder: "Enter your full name",
-        emailLabel: "Email Address",
-        emailPlaceholder: "Where can we reach you?",
-        accept: "Joyfully Accept",
-        decline: "Regretfully Decline",
-        send: "Send Confirmation",
-        thanks: "Thank you, we'll see you in Poland."
-      },
-      es: {
-        est: "Est.",
-        rsvp: "Confirmar",
-        saveTheDate: "Reserva la fecha",
-        heroDate: "08 de agosto de 2026",
-        heroCountry: "Polonia",
-        scroll: "Desliza",
-        quote: '"Amamos con un amor que era más que amor."',
-        quoteAuthor: "— Edgar Allan Poe",
-        whenTitle: "Cuándo",
-        whenDate: "8 de agosto de 2026",
-        whenTime: "La ceremonia empieza a las 4:00 PM",
-        whereTitle: "Dónde",
-        whereCountry: "Polonia",
-        whereVenue: "Ciudad y lugar por confirmar.",
-        whereMore: "Más detalles e invitaciones formales próximamente.",
-        joinUs: "Acompáñanos",
-        kindredSpirits: "Almas afines",
-        nameLabel: "Tu nombre",
-        namePlaceholder: "Escribe tu nombre completo",
-        emailLabel: "Correo electrónico",
-        emailPlaceholder: "¿A qué correo te escribimos?",
-        accept: "Acepto con alegría",
-        decline: "Con pena rechazo",
-        send: "Enviar confirmación",
-        thanks: "Gracias, nos vemos en Polonia."
-      },
-      pl: {
-        est: "Est.",
-        rsvp: "Potwierdź",
-        saveTheDate: "Zarezerwuj datę",
-        heroDate: "8 sierpnia 2026",
-        heroCountry: "Polska",
-        scroll: "Przewiń",
-        quote: '"Kochaliśmy miłością, która była czymś więcej niż miłością."',
-        quoteAuthor: "— Edgar Allan Poe",
-        whenTitle: "Kiedy",
-        whenDate: "8 sierpnia 2026",
-        whenTime: "Ceremonia rozpoczyna się o 16:00",
-        whereTitle: "Gdzie",
-        whereCountry: "Polska",
-        whereVenue: "Miasto i miejsce wkrótce.",
-        whereMore: "Więcej szczegółów i oficjalne zaproszenia wkrótce.",
-        joinUs: "Dołącz do nas",
-        kindredSpirits: "Pokrewne dusze",
-        nameLabel: "Imię i nazwisko",
-        namePlaceholder: "Wpisz imię i nazwisko",
-        emailLabel: "Email",
-        emailPlaceholder: "Na jaki adres możemy napisać?",
-        accept: "Z radością przyjmuję",
-        decline: "Z żalem odmawiam",
-        send: "Wyślij potwierdzenie",
-        thanks: "Dziękujemy, do zobaczenia w Polsce."
+      function paintThemeIcon() {
+        // Show icon for the *other* mode (what you'll switch to)
+        const isDark = htmlEl.classList.contains('dark');
+        iconSun.style.display = isDark ? 'inline-block' : 'none'; // in dark: show sun (switch to light)
+        iconMoon.style.display = isDark ? 'none' : 'inline-block'; // in light: show moon (switch to dark)
       }
-    };
 
-    function applyLanguage(lang) {
-      const dict = translations[lang] || translations.en;
-      localStorage.setItem('lang', lang);
-      document.documentElement.lang = lang;
+      function applyTheme(theme) {
+        const isDark = theme === 'dark';
+        htmlEl.classList.toggle('dark', isDark);
+        localStorage.setItem('theme', theme);
+        paintThemeIcon();
+      }
 
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        el.textContent = dict[key] ?? translations.en[key] ?? el.textContent;
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        applyTheme(savedTheme);
+      } else {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(prefersDark ? 'dark' : 'light');
+      }
+
+      toggle.addEventListener('click', () => {
+        applyTheme(htmlEl.classList.contains('dark') ? 'light' : 'dark');
       });
 
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        el.setAttribute('placeholder', dict[key] ?? translations.en[key] ?? el.getAttribute('placeholder') || '');
-      });
-    }
+      // LANGUAGE
+      const langSelect = document.getElementById('langSelect');
+      const translations = {
+        en: {
+          est: "Est.",
+          rsvp: "RSVP",
+          saveTheDate: "Save the date",
+          heroDate: "08 August 2026",
+          heroCountry: "Poland",
+          scroll: "Scroll",
+          quote: '"We loved with a love that was more than love."',
+          quoteAuthor: "— Edgar Allan Poe",
+          whenTitle: "The When",
+          whenDate: "August 8th, 2026",
+          whenTime: "Ceremony begins at 4:00 PM",
+          whereTitle: "The Where",
+          whereCountry: "Poland",
+          whereVenue: "City & venue to be confirmed.",
+          whereMore: "More details and formal invitations to follow.",
+          joinUs: "Join Us",
+          kindredSpirits: "Kindred Spirits",
+          nameLabel: "Your Name",
+          namePlaceholder: "Enter your full name",
+          emailLabel: "Email Address",
+          emailPlaceholder: "Where can we reach you?",
+          accept: "Joyfully Accept",
+          decline: "Regretfully Decline",
+          send: "Send Confirmation",
+          thanks: "Thank you, we'll see you in Poland."
+        },
+        es: {
+          est: "Est.",
+          rsvp: "Confirmar",
+          saveTheDate: "Reserva la fecha",
+          heroDate: "08 de agosto de 2026",
+          heroCountry: "Polonia",
+          scroll: "Desliza",
+          quote: '"Amamos con un amor que era más que amor."',
+          quoteAuthor: "— Edgar Allan Poe",
+          whenTitle: "Cuándo",
+          whenDate: "8 de agosto de 2026",
+          whenTime: "La ceremonia empieza a las 4:00 PM",
+          whereTitle: "Dónde",
+          whereCountry: "Polonia",
+          whereVenue: "Ciudad y lugar por confirmar.",
+          whereMore: "Más detalles e invitaciones formales próximamente.",
+          joinUs: "Acompáñanos",
+          kindredSpirits: "Almas afines",
+          nameLabel: "Tu nombre",
+          namePlaceholder: "Escribe tu nombre completo",
+          emailLabel: "Correo electrónico",
+          emailPlaceholder: "¿A qué correo te escribimos?",
+          accept: "Acepto con alegría",
+          decline: "Con pena rechazo",
+          send: "Enviar confirmación",
+          thanks: "Gracias, nos vemos en Polonia."
+        },
+        pl: {
+          est: "Est.",
+          rsvp: "Potwierdź",
+          saveTheDate: "Zarezerwuj datę",
+          heroDate: "8 sierpnia 2026",
+          heroCountry: "Polska",
+          scroll: "Przewiń",
+          quote: '"Kochaliśmy miłością, która była czymś więcej niż miłością."',
+          quoteAuthor: "— Edgar Allan Poe",
+          whenTitle: "Kiedy",
+          whenDate: "8 sierpnia 2026",
+          whenTime: "Ceremonia rozpoczyna się o 16:00",
+          whereTitle: "Gdzie",
+          whereCountry: "Polska",
+          whereVenue: "Miasto i miejsce wkrótce.",
+          whereMore: "Więcej szczegółów i oficjalne zaproszenia wkrótce.",
+          joinUs: "Dołącz do nas",
+          kindredSpirits: "Pokrewne dusze",
+          nameLabel: "Imię i nazwisko",
+          namePlaceholder: "Wpisz imię i nazwisko",
+          emailLabel: "Email",
+          emailPlaceholder: "Na jaki adres możemy napisać?",
+          accept: "Z radością przyjmuję",
+          decline: "Z żalem odmawiam",
+          send: "Wyślij potwierdzenie",
+          thanks: "Dziękujemy, do zobaczenia w Polsce."
+        }
+      };
 
-    function initLanguage() {
-      const stored = localStorage.getItem('lang');
-      const lang = (stored === 'en' || stored === 'es' || stored === 'pl') ? stored : 'en';
-      langSelect.value = lang;
-      applyLanguage(lang);
-    }
+      function applyLanguage(lang) {
+        const dict = translations[lang] || translations.en;
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
 
-    langSelect.addEventListener('change', (e) => applyLanguage(e.target.value));
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (dict[key] != null) el.textContent = dict[key];
+        });
 
-    // Loader hide (always)
-    function hideLoaderNow() {
-      const loader = document.getElementById('loader');
-      if (!loader) return;
-      loader.style.transition = 'opacity 500ms ease';
-      loader.style.opacity = '0';
-      loader.style.pointerEvents = 'none';
-      setTimeout(() => loader.remove(), 520);
-    }
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+          const key = el.getAttribute('data-i18n-placeholder');
+          if (dict[key] != null) el.setAttribute('placeholder', dict[key]);
+        });
+      }
 
-    window.addEventListener('load', () => {
-      initTheme();
-      initLanguage();
-      hideLoaderNow();
+      const savedLang = localStorage.getItem('lang');
+      const initial = (savedLang === 'en' || savedLang === 'es' || savedLang === 'pl') ? savedLang : 'en';
+      langSelect.value = initial;
+      applyLanguage(initial);
 
-      // Optional animations
-      if (window.gsap) {
+      langSelect.addEventListener('change', (e) => applyLanguage(e.target.value));
+
+      // Optional GSAP (non-blocking)
+      setTimeout(() => {
+        if (!window.gsap) return;
         if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
-
-        gsap.from("#navbar", { opacity: 0, y: -10, duration: 0.8, ease: "power3.out", delay: 0.1 });
-        gsap.from(".reveal-text", { y: 26, opacity: 0, duration: 1.05, ease: "power3.out", delay: 0.25 });
 
         gsap.to("#hero-image", {
           scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: true },
@@ -493,21 +542,20 @@
 
         document.querySelectorAll(".scroll-trigger").forEach((el) => {
           gsap.fromTo(el, { y: 40, opacity: 0 }, {
-            scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none reverse" },
+            scrollTrigger: { trigger: el, start: "top 80%" },
             y: 0, opacity: 1, duration: 1.05, ease: "power3.out"
           });
         });
-      }
-    });
+      }, 0);
 
-    // Form handling
-    const form = document.getElementById('rsvpForm');
-    const successMsg = document.getElementById('successMessage');
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      form.style.display = 'none';
-      successMsg.classList.remove('hidden');
+      // RSVP submit
+      const form = document.getElementById('rsvpForm');
+      const successMsg = document.getElementById('successMessage');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.style.display = 'none';
+        successMsg.classList.remove('hidden');
+      });
     });
   </script>
 </body>
