@@ -1,0 +1,173 @@
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- 1. LANGUAGE DATA (i18n Dictionary) ---
+    const translations = {
+      'title-key': { en: 'Felipe & Olga | The Wedding', es: 'Felipe y Olga | La Boda', pl: 'Felipe i Olga | Ślub' },
+      'nav-rsvp-btn': { en: 'RSVP', es: 'Confirmar Asistencia', pl: 'Potwierdź Obecność' },
+      'hero-date-key': { en: 'Save the date', es: 'Aparta la fecha', pl: 'Zapisz datę' },
+      'hero-location-key': { en: 'Poland', es: 'Polonia', pl: 'Polska' },
+      'scroll-key': { en: 'Scroll', es: 'Deslizar', pl: 'Przewiń' },
+      'quote-key': { en: '"We loved with a love that was more than love."', es: '"Amamos con un amor que era más que amor."', pl: '"Kochaliśmy miłością, która była czymś więcej niż miłością."' },
+      'details-when-key': { en: 'The When', es: 'Cuándo', pl: 'Kiedy' },
+      'details-time-key': { en: 'Ceremony begins at 4:00 PM', es: 'La ceremonia comienza a las 4:00 PM', pl: 'Ceremonia rozpoczyna się o 16:00' },
+      'details-where-key': { en: 'The Where', es: 'Dónde', pl: 'Gdzie' },
+      'details-location-key': { en: 'Poland', es: 'Polonia', pl: 'Polska' },
+      'details-city-key': { en: 'City & venue to be confirmed.', es: 'Ciudad y lugar por confirmar.', pl: 'Miasto i lokalizacja do potwierdzenia.' },
+      'details-follow-up-key': { en: 'More details and formal invitations to follow.', es: 'Más detalles e invitaciones formales a seguir.', pl: 'Więcej szczegółów i formalne zaproszenia wkrótce.' },
+      'rsvp-join-key': { en: 'Join Us', es: 'Únete a Nosotros', pl: 'Dołącz do Nas' },
+      'rsvp-title-key': { en: 'Kindred Spirits', es: 'Almas Gemelas', pl: 'Pokrewne Dusze' },
+      
+      // Form Labels
+      'form-name-label-key': { en: 'Your Name', es: 'Tu Nombre', pl: 'Twoje Imię' },
+      'form-email-label-key': { en: 'Email Address', es: 'Correo Electrónico', pl: 'Adres E-mail' },
+      'form-accept-key': { en: 'Joyfully Accept', es: 'Acepto con Alegría', pl: 'Radośnie Akceptuję' },
+      'form-decline-key': { en: 'Regretfully Decline', es: 'Lamento Declinár', pl: 'Z Żalem Odmawiam' },
+      'form-submit-key': { en: 'Send Confirmation', es: 'Enviar Confirmación', pl: 'Wyślij Potwierdzenie' },
+      'form-success-key': { en: "Thank you, we'll see you in Poland.", es: 'Gracias, nos veremos en Polonia.', pl: 'Dziękujemy, do zobaczenia w Polsce.' },
+
+      // Placeholders
+      'form-name-input-key-placeholder': { en: 'Enter your full name', es: 'Introduce tu nombre completo', pl: 'Wprowadź swoje pełne imię i nazwisko' },
+      'form-email-input-key-placeholder': { en: 'Where can we reach you?', es: '¿Dónde podemos contactarte?', pl: 'Gdzie możemy się z Tobą skontaktować?' },
+    };
+
+    // --- 2. THEME MANAGEMENT ---
+    const htmlEl = document.documentElement;
+    const modeToggle = document.getElementById('mode-toggle');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+
+    function updateMode(isDarkMode) {
+      if (isDarkMode) {
+        htmlEl.classList.add('dark');
+        htmlEl.classList.remove('light');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        htmlEl.classList.remove('dark');
+        htmlEl.classList.add('light');
+        moonIcon.classList.add('hidden');
+        sunIcon.classList.remove('hidden');
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    // Initial theme setup
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+      updateMode(false);
+    } else {
+      updateMode(true);
+    }
+    
+    modeToggle.addEventListener('click', () => {
+      const isDarkMode = htmlEl.classList.contains('dark');
+      updateMode(!isDarkMode);
+    });
+
+
+    // --- 3. LANGUAGE MANAGEMENT ---
+    const langDropdown = document.getElementById('lang-dropdown');
+    const langButton = document.getElementById('lang-button');
+    const langLinks = langDropdown.querySelectorAll('a');
+
+    function applyLanguage(lang) {
+      
+      // Loop through the translation keys in the dictionary
+      Object.entries(translations).forEach(([key, values]) => {
+        const element = document.getElementById(key);
+
+        if (element && values[lang]) {
+          const translation = values[lang];
+
+          if (key.endsWith('-placeholder')) {
+            // Handle placeholders (key is 'input-id-placeholder')
+            const targetId = key.replace('-placeholder', '');
+            const inputElement = document.getElementById(targetId);
+            if (inputElement) {
+              inputElement.placeholder = translation;
+            }
+          } else if (element.tagName === 'TITLE') {
+            // Handle <title>
+            document.title = translation;
+          } else {
+            // All other text content
+            element.innerHTML = translation;
+          }
+        }
+      });
+
+      langButton.textContent = lang.toUpperCase();
+      localStorage.setItem('language', lang);
+    }
+
+    // Dropdown toggle
+    langButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      langDropdown.classList.toggle('hidden');
+    });
+
+    // Language selection handler
+    langLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        applyLanguage(link.getAttribute('data-lang'));
+        langDropdown.classList.add('hidden');
+      });
+    });
+
+    // Initial load: Apply saved language
+    const savedLang = localStorage.getItem('language') || 'en';
+    applyLanguage(savedLang);
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!langButton.contains(e.target) && !langDropdown.contains(e.target)) {
+        langDropdown.classList.add('hidden');
+      }
+    });
+
+    // --- 4. GSAP/ScrollTrigger Logic ---
+    // (Remains unchanged)
+    
+    window.addEventListener('load', () => {
+      const tl = gsap.timeline();
+      tl.to("#loader h1", { opacity: 0, duration: 0.5, delay: 0.9 })
+        .to("#loader", { height: 0, duration: 1, ease: "power4.inOut" })
+        .to("#navbar", { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, "-=0.55")
+        .from(".reveal-text", { y: 26, opacity: 0, duration: 1.1, ease: "power3.out" }, "-=0.45");
+    });
+
+    gsap.to("#hero-image", {
+      scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: true },
+      y: 140, opacity: 0.35, scale: 1.08, ease: "none"
+    });
+
+    document.querySelectorAll(".scroll-trigger").forEach((el) => {
+      gsap.fromTo(el, { y: 40, opacity: 0 }, {
+        scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none reverse" },
+        y: 0, opacity: 1, duration: 1.1, ease: "power3.out"
+      });
+    });
+
+    // Form handling (frontend only)
+    const form = document.getElementById('rsvpForm');
+    const successMsg = document.getElementById('successMessage');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      gsap.to(form, {
+        opacity: 0, y: -16, duration: 0.5,
+        onComplete: () => {
+          form.style.display = 'none';
+          successMsg.classList.remove('hidden');
+          gsap.fromTo(successMsg, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
