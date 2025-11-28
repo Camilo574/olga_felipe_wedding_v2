@@ -1,431 +1,514 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title id="title-key">Felipe & Olga | The Wedding</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Felipe & Olga | The Wedding</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Typography (Playfair Display + Manrope) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <script>
-    // Using custom colors to easily switch light/dark
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            // Dark Mode (Default)
-            'bg-primary': '#0f1110', 
-            'text-primary': '#e8e6e1', 
-            'text-secondary': '#a89f91', // Gold Accent
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: { 'felipe-gold': '#a89f91' },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['Manrope', 'system-ui', 'sans-serif'],
+          },
+          backgroundImage: {
+            'hero-pattern': "url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2669&auto=format&fit=crop')",
+          }
+        }
+      }
+    }
+  </script>
 
-            // Light Mode Overrides (Used with 'light:' prefix)
-            'light-bg-primary': '#fefcf8', 
-            'light-text-primary': '#1f2120', 
-          },
-          fontFamily: {
-            serif: ['"Playfair Display"', 'serif'],
-            sans: ['Manrope', 'system-ui', 'sans-serif'],
-          },
-          backgroundImage: {
-            'hero-pattern': "url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2669&auto=format&fit=crop')",
-          }
-        }
-      }
-    }
-  </script>
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --surface: rgba(255, 255, 255, 0.60);
+      --surface-strong: rgba(255, 255, 255, 0.78);
+      --border: rgba(15, 17, 16, 0.14);
+      --text: #0f1110;
+      --muted: rgba(15, 17, 16, 0.62);
+      --muted2: rgba(15, 17, 16, 0.42);
+      --input-border: rgba(15, 17, 16, 0.22);
+      --input-focus: rgba(15, 17, 16, 0.75);
+      --vignette-alpha: 0.20;
+      --grain-opacity: 0.04;
+    }
 
-  <style>
-    /* --- BASE (Dark Mode) --- */
-    body {
-      background-color: #0f1110; /* bg-primary */
-      color: #e8e6e1; /* text-primary */
-      overflow-x: hidden;
-    }
-    ::selection { background: #a89f91; color: #0f1110; }
-    .parallax-bg { background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover; }
-    @media (max-width: 768px) { .parallax-bg { background-attachment: scroll; } }
-    
-    .input-line {
-      background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.22); color: #e8e6e1;
-      padding: 10px 0; width: 100%; transition: border-color 0.35s ease, color 0.35s ease;
-    }
-    .input-line:focus { outline: none; border-bottom: 1px solid rgba(232,230,225,0.9); }
+    html.dark {
+      --bg: #0f1110;
+      --surface: rgba(0, 0, 0, 0.28);
+      --surface-strong: rgba(0, 0, 0, 0.42);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #e8e6e1;
+      --muted: rgba(232, 230, 225, 0.68);
+      --muted2: rgba(232, 230, 225, 0.46);
+      --input-border: rgba(255, 255, 255, 0.22);
+      --input-focus: rgba(232, 230, 225, 0.90);
+      --vignette-alpha: 0.60;
+      --grain-opacity: 0.05;
+    }
 
-    /* --- LIGHT MODE OVERRIDES --- */
-    .light body { background-color: #fefcf8; color: #1f2120; }
-    .light .input-line { border-bottom: 1px solid rgba(31, 33, 32, 0.2); color: #1f2120; }
-    .light .input-line:focus { border-bottom: 1px solid rgba(31, 33, 32, 0.9); }
+    body { background-color: var(--bg); color: var(--text); overflow-x: hidden; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: #a89f91; color: #0f1110; }
 
-    /* Grain overlay and loader remain the same */
-    .grain-overlay {
-      position: fixed; inset: 0; pointer-events: none; z-index: 40;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-    }
-    #loader { position: fixed; inset: 0; background: #0f1110; z-index: 100; display: flex; justify-content: center; align-items: center; }
-    .light #loader { background: #fefcf8; }
-  </style>
+    .parallax-bg {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    @media (max-width: 768px) { .parallax-bg { background-attachment: scroll; } }
+
+    .grain-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+      opacity: var(--grain-opacity);
+      z-index: 40;
+    }
+
+    .input-line {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--input-border);
+      color: var(--text);
+      padding: 10px 0;
+      width: 100%;
+      transition: border-color 0.35s ease;
+    }
+    .input-line:focus { outline: none; border-bottom: 1px solid var(--input-focus); }
+
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+    }
+
+    .vignette::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at center, transparent 42%, rgba(0,0,0,var(--vignette-alpha)) 100%);
+      z-index: 30;
+    }
+
+    .pill { border: 1px solid var(--border); background: var(--surface); backdrop-filter: blur(12px); }
+  </style>
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased vignette">
+  <div class="grain-overlay"></div>
 
-    <div class="grain-overlay"></div>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="text-center">
+      <h1 class="font-serif text-3xl tracking-[0.22em] text-felipe-gold uppercase animate-pulse">F &amp; O</h1>
+    </div>
+  </div>
 
-    <div id="loader">
-    <div class="text-center">
-      <h1 class="font-serif text-3xl tracking-[0.22em] text-text-secondary uppercase animate-pulse">F &amp; O</h1>
-    </div>
-  </div>
+  <!-- ✅ Navbar is visible by default now -->
+  <nav class="fixed w-full z-50 top-0 left-0 px-6 md:px-10 pt-6 md:pt-10" id="navbar">
+    <div class="mx-auto max-w-6xl flex items-center justify-between gap-3 px-4 py-3 rounded-full pill">
+      <div class="text-xs tracking-[0.2em] uppercase" style="color:var(--text)">
+        <span data-i18n="est">Est.</span> 2026
+      </div>
 
-    <nav class="fixed w-full z-50 top-0 left-0 px-6 md:px-10 pt-6 md:pt-10 opacity-0 translate-y-3" id="navbar">
-    <div class="mx-auto max-w-6xl flex justify-between items-center px-5 py-3 rounded-full border border-white/10 bg-bg-primary/25 backdrop-blur-md text-text-primary light:border-light-text-primary/10 light:bg-light-bg-primary/60 light:text-light-text-primary transition-colors duration-500">
-      
-      <div class="text-xs tracking-[0.2em] uppercase">Est. 2026</div>
-      
-      <div class="flex items-center space-x-4">
-                <div class="relative group">
-          <button id="lang-button" class="text-xs tracking-[0.2em] uppercase text-text-primary/70 hover:text-text-secondary transition-colors duration-300">
-            EN
-          </button>
-          <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-20 rounded-md shadow-lg py-1 bg-bg-primary/75 backdrop-blur-sm ring-1 ring-white/10 light:bg-light-bg-primary/90 light:ring-light-text-primary/10">
-            <a href="#" data-lang="en" class="block px-3 py-1 text-xs tracking-[0.1em] uppercase hover:bg-text-secondary/20 text-text-primary light:text-light-text-primary">English</a>
-            <a href="#" data-lang="es" class="block px-3 py-1 text-xs tracking-[0.1em] uppercase hover:bg-text-secondary/20 text-text-primary light:text-light-text-primary">Español</a>
-            <a href="#" data-lang="pl" class="block px-3 py-1 text-xs tracking-[0.1em] uppercase hover:bg-text-secondary/20 text-text-primary light:text-light-text-primary">Polski</a>
-          </div>
-        </div>
+      <div class="flex items-center gap-2 md:gap-3">
+        <!-- Language dropdown (EN/ES/PL) -->
+        <select
+          id="langSelect"
+          class="text-xs tracking-[0.16em] uppercase px-3 py-2 rounded-full pill outline-none"
+          style="color:var(--text)"
+          aria-label="Language"
+        >
+          <option value="en">EN</option>
+          <option value="es">ES</option>
+          <option value="pl">PL</option>
+        </select>
 
-                <button 
-          id="mode-toggle"
-          type="button" 
-          class="p-1 rounded-full text-text-primary/70 hover:text-text-secondary transition-colors duration-300"
-        >
-          <svg id="sun-icon" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"></path></svg>
-          <svg id="moon-icon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-        </button>
+        <!-- Dark/Light toggle -->
+        <button
+          id="themeToggle"
+          type="button"
+          class="px-3 py-2 rounded-full pill hover:opacity-90 transition"
+          aria-label="Toggle theme"
+          title="Toggle theme"
+          style="color:var(--text)"
+        >
+          <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path><path d="M12 20v2"></path>
+            <path d="M4.93 4.93l1.41 1.41"></path><path d="M17.66 17.66l1.41 1.41"></path>
+            <path d="M2 12h2"></path><path d="M20 12h2"></path>
+            <path d="M4.93 19.07l1.41-1.41"></path><path d="M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
 
-                <button
-          type="button"
-          class="text-xs tracking-[0.2em] uppercase hover:text-text-secondary transition-colors duration-300"
-          onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})"
-          id="nav-rsvp-btn"
-        >
-          RSVP
-        </button>
-      </div>
-    </div>
-  </nav>
+        <!-- RSVP -->
+        <button
+          type="button"
+          class="text-xs tracking-[0.2em] uppercase px-4 py-2 rounded-full pill hover:opacity-90 transition"
+          onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})"
+          style="color:var(--text)"
+        >
+          <span data-i18n="rsvp">RSVP</span>
+        </button>
+      </div>
+    </div>
+  </nav>
 
-    <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
-        <div class="absolute inset-0 z-0 opacity-70 scale-105 bg-hero-pattern parallax-bg" id="hero-image"></div>
+  <!-- Hero -->
+  <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+    <div class="absolute inset-0 z-0 opacity-75 scale-105 bg-hero-pattern parallax-bg" id="hero-image"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/55 z-10"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(168,159,145,0.22),_transparent_60%)] z-10"></div>
 
-        <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-bg-primary/40 to-bg-primary light:from-light-bg-primary/55 light:via-light-bg-primary/40 light:to-light-bg-primary z-10"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(168,159,145,0.25),_transparent_60%)] z-10"></div>
+    <div class="relative z-20 w-full px-6">
+      <div class="mx-auto max-w-3xl text-center">
+        <div class="reveal-text inline-block rounded-2xl px-8 py-10 md:px-12 md:py-12"
+             style="border:1px solid var(--border); background:var(--surface); backdrop-filter: blur(14px);">
+          <p class="font-sans text-[0.65rem] md:text-xs tracking-[0.32em] uppercase text-felipe-gold/90" data-i18n="saveTheDate">
+            Save the date
+          </p>
 
-        <div class="relative z-20 w-full px-6">
-      <div class="mx-auto max-w-3xl text-center">
-        <div class="reveal-text inline-block rounded-2xl border border-white/10 bg-bg-primary/25 backdrop-blur-md px-8 py-10 md:px-12 md:py-12 light:border-light-text-primary/10 light:bg-light-bg-primary/40">
-          <p class="font-sans text-[0.65rem] md:text-xs tracking-[0.32em] uppercase text-text-secondary/90"
-            id="hero-date-key">
-            Save the date
-          </p>
+          <h1 class="mt-7 font-serif text-5xl md:text-7xl leading-none tracking-[0.01em]" style="color:var(--text)">
+            Felipe <span class="italic text-felipe-gold/85">&amp;</span> Olga
+          </h1>
 
-          <h1 class="mt-7 font-serif text-5xl md:text-7xl leading-none tracking-[0.01em] text-text-primary light:text-light-text-primary">
-            Felipe <span class="italic text-text-secondary/80">&amp;</span> Olga
-          </h1>
+          <div class="mt-7 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 font-sans text-[0.65rem] md:text-[0.75rem] tracking-[0.26em] uppercase"
+               style="color:var(--muted)">
+            <span data-i18n="heroDate">08 August 2026</span>
+            <span class="hidden md:inline w-10 h-px bg-gradient-to-r from-transparent via-felipe-gold/80 to-transparent"></span>
+            <span data-i18n="heroCountry">Poland</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-          <div class="mt-7 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 font-sans text-[0.65rem] md:text-[0.75rem] tracking-[0.26em] uppercase text-text-primary/70 light:text-light-text-primary/70">
-            <span>08 August 2026</span>
-            <span class="hidden md:inline w-10 h-px bg-gradient-to-r from-transparent via-text-secondary/80 to-transparent"></span>
-            <span id="hero-location-key">Poland</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+      <div class="flex flex-col items-center gap-3" style="color:var(--muted)">
+        <span class="font-sans text-[0.6rem] tracking-[0.35em] uppercase" data-i18n="scroll">Scroll</span>
+        <div class="w-[1px] h-12 bg-gradient-to-b from-felipe-gold/80 to-transparent animate-pulse"></div>
+      </div>
+    </div>
+  </section>
 
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
-      <div class="flex flex-col items-center gap-3 text-text-primary/60 light:text-light-text-primary/60">
-        <span class="font-sans text-[0.6rem] tracking-[0.35em] uppercase" id="scroll-key">Scroll</span>
-        <div class="w-[1px] h-12 bg-gradient-to-b from-text-secondary/80 to-transparent animate-pulse"></div>
-      </div>
-    </div>
-  </section>
+  <!-- Quote -->
+  <section class="relative py-32 px-6 flex flex-col items-center justify-center text-center" style="background:var(--bg)">
+    <div class="max-w-2xl mx-auto scroll-trigger">
+      <h2 class="font-serif text-3xl md:text-5xl leading-tight mb-8" style="color:var(--text)" data-i18n="quote">
+        "We loved with a love that was more than love."
+      </h2>
+      <p class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-felipe-gold" data-i18n="quoteAuthor">
+        — Edgar Allan Poe
+      </p>
+      <div class="w-px h-24 bg-gradient-to-b from-felipe-gold to-transparent mx-auto mt-12"></div>
+    </div>
+  </section>
 
-    <section class="relative py-32 px-6 flex flex-col items-center justify-center text-center bg-bg-primary light:bg-light-bg-primary border-t border-b border-white/5 light:border-light-text-primary/10">
-    <div class="max-w-2xl mx-auto scroll-trigger">
-      <h2 class="font-serif text-3xl md:text-5xl leading-tight mb-8 text-text-primary light:text-light-text-primary"
-        id="quote-key">
-        "We loved with a love that was more than love."
-      </h2>
-      <p class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-text-secondary">— Edgar Allan Poe</p>
-      <div class="w-px h-24 bg-gradient-to-b from-text-secondary to-transparent mx-auto mt-12"></div>
-    </div>
-  </section>
+  <!-- Details -->
+  <section class="relative min-h-screen flex flex-col md:flex-row" style="background:var(--bg)">
+    <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative overflow-hidden">
+      <div class="absolute inset-0 bg-cover bg-center transition-transform duration-[1400ms] hover:scale-105"
+           style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2670&auto=format&fit=crop');"></div>
+      <div class="absolute inset-0 bg-black/25"></div>
+    </div>
 
-    <section class="relative min-h-screen flex flex-col md:flex-row bg-bg-primary/5 light:bg-light-bg-primary/50">
-        <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative overflow-hidden">
-      <div
-        class="absolute inset-0 bg-cover bg-center transition-transform duration-[1400ms] hover:scale-105"
-        style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2670&auto=format&fit=crop');">
-      </div>
-      <div class="absolute inset-0 bg-bg-primary/35 light:bg-light-bg-primary/35"></div>
-    </div>
+    <div class="w-full md:w-1/2 flex flex-col justify-center p-12 md:p-24"
+         style="background:var(--surface-strong); border-left:1px solid var(--border);">
+      <div class="scroll-trigger space-y-12">
+        <div>
+          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-felipe-gold mb-4" data-i18n="whenTitle">The When</h3>
+          <p class="font-serif text-3xl md:text-4xl mb-2" style="color:var(--text)" data-i18n="whenDate">August 8th, 2026</p>
+          <p class="font-sans text-xs font-light" style="color:var(--muted)" data-i18n="whenTime">Ceremony begins at 4:00 PM</p>
+        </div>
 
-        <div class="w-full md:w-1/2 flex flex-col justify-center p-12 md:p-24 bg-bg-primary light:bg-light-bg-primary text-text-primary light:text-light-text-primary">
-      <div class="scroll-trigger space-y-12">
-        <div>
-          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-text-secondary mb-4" id="details-when-key">The When</h3>
-          <p class="font-serif text-3xl md:text-4xl mb-2">August 8th, 2026</p>
-          <p class="font-sans text-xs text-gray-400 light:text-gray-600 font-light" id="details-time-key">Ceremony begins at 4:00 PM</p>
-        </div>
+        <div>
+          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-felipe-gold mb-4" data-i18n="whereTitle">The Where</h3>
+          <p class="font-serif text-3xl md:text-4xl mb-2" style="color:var(--text)" data-i18n="whereCountry">Poland</p>
+          <p class="font-sans text-sm font-light" style="color:var(--muted)" data-i18n="whereVenue">City &amp; venue to be confirmed.</p>
+          <p class="font-sans text-[0.7rem] mt-2 italic" style="color:var(--muted2)" data-i18n="whereMore">
+            More details and formal invitations to follow.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <div>
-          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-text-secondary mb-4" id="details-where-key">The Where</h3>
-          <p class="font-serif text-3xl md:text-4xl mb-2" id="details-location-key">Poland</p>
-          <p class="font-sans text-sm text-gray-400 light:text-gray-600 font-light" id="details-city-key">City &amp; venue to be confirmed.</p>
-          <p class="font-sans text-[0.7rem] text-gray-500 mt-2 italic" id="details-follow-up-key">More details and formal invitations to follow.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- RSVP -->
+  <section id="rsvp" class="relative py-32 px-4 md:px-0 border-t"
+           style="background:var(--bg); border-color:var(--border)">
+    <div class="max-w-xl mx-auto text-center scroll-trigger">
+      <span class="font-sans text-[0.7rem] tracking-[0.3em] uppercase text-felipe-gold mb-4 block" data-i18n="joinUs">Join Us</span>
+      <h2 class="font-serif text-5xl md:text-6xl mb-12" style="color:var(--text)" data-i18n="kindredSpirits">Kindred Spirits</h2>
 
-    <section id="rsvp" class="relative py-32 px-4 md:px-0 bg-bg-primary light:bg-light-bg-primary border-t border-white/5 light:border-light-text-primary/10">
-    <div class="max-w-xl mx-auto text-center scroll-trigger text-text-primary light:text-light-text-primary">
-      <span class="font-sans text-[0.7rem] tracking-[0.3em] uppercase text-text-secondary mb-4 block" id="rsvp-join-key">Join Us</span>
-      <h2 class="font-serif text-5xl md:text-6xl mb-12" id="rsvp-title-key">Kindred Spirits</h2>
+      <form id="rsvpForm" class="space-y-12 text-left">
+        <div class="group">
+          <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-2" style="color:var(--muted2)">
+            <span data-i18n="nameLabel">Your Name</span>
+          </label>
+          <input type="text" required class="input-line font-serif text-2xl"
+                 data-i18n-placeholder="namePlaceholder" placeholder="Enter your full name" />
+        </div>
 
-      <form id="rsvpForm" class="space-y-12 text-left">
-        <div class="group">
-          <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase text-gray-500 mb-2 group-focus-within:text-text-secondary transition-colors"
-            id="form-name-label-key">
-            Your Name
-          </label>
-          <input type="text" required class="input-line font-serif text-2xl" id="form-name-input-key" placeholder="Enter your full name">
-        </div>
+        <div class="group">
+          <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-2" style="color:var(--muted2)">
+            <span data-i18n="emailLabel">Email Address</span>
+          </label>
+          <input type="email" required class="input-line font-serif text-2xl"
+                 data-i18n-placeholder="emailPlaceholder" placeholder="Where can we reach you?" />
+        </div>
 
-        <div class="group">
-          <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase text-gray-500 mb-2 group-focus-within:text-text-secondary transition-colors"
-            id="form-email-label-key">
-            Email Address
-          </label>
-          <input type="email" required class="input-line font-serif text-2xl" id="form-email-input-key" placeholder="Where can we reach you?">
-        </div>
+        <div class="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center pt-8">
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input type="radio" name="attendance" value="yes" class="peer sr-only" required>
+            <span class="w-4 h-4 rounded-full transition-all" style="border:1px solid #a89f91"></span>
+            <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase transition-colors" style="color:var(--muted)">
+              <span data-i18n="accept">Joyfully Accept</span>
+            </span>
+          </label>
 
-        <div class="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center pt-8">
-          <label class="flex items-center gap-3 cursor-pointer group">
-            <input type="radio" name="attendance" value="yes" class="peer sr-only" required>
-            <span class="w-4 h-4 border border-text-secondary rounded-full peer-checked:bg-text-secondary transition-all"></span>
-            <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-gray-400 light:text-gray-600 peer-checked:text-text-primary light:peer-checked:text-light-text-primary transition-colors"
-              id="form-accept-key">
-              Joyfully Accept
-            </span>
-          </label>
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input type="radio" name="attendance" value="no" class="peer sr-only">
+            <span class="w-4 h-4 rounded-full transition-all" style="border:1px solid #a89f91"></span>
+            <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase transition-colors" style="color:var(--muted)">
+              <span data-i18n="decline">Regretfully Decline</span>
+            </span>
+          </label>
+        </div>
 
-          <label class="flex items-center gap-3 cursor-pointer group">
-            <input type="radio" name="attendance" value="no" class="peer sr-only">
-            <span class="w-4 h-4 border border-text-secondary rounded-full peer-checked:bg-text-secondary transition-all"></span>
-            <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-gray-400 light:text-gray-600 peer-checked:text-text-primary light:peer-checked:text-light-text-primary transition-colors"
-              id="form-decline-key">
-              Regretfully Decline
-            </span>
-          </label>
-        </div>
+        <div class="text-center pt-12">
+          <button type="submit" class="font-serif italic text-xl md:text-2xl transition-colors duration-500 relative group" style="color:var(--text)">
+            <span data-i18n="send">Send Confirmation</span>
+            <span class="absolute -bottom-2 left-0 w-0 h-px bg-felipe-gold transition-all duration-500 group-hover:w-full"></span>
+          </button>
+        </div>
+      </form>
 
-        <div class="text-center pt-12">
-          <button type="submit" class="font-serif italic text-xl md:text-2xl text-text-primary light:text-light-text-primary hover:text-text-secondary transition-colors duration-500 relative group"
-            id="form-submit-key">
-            Send Confirmation
-            <span class="absolute -bottom-2 left-0 w-0 h-px bg-text-secondary transition-all duration-500 group-hover:w-full"></span>
-          </button>
-        </div>
-      </form>
+      <div id="successMessage" class="hidden pt-12">
+        <p class="font-serif text-3xl text-felipe-gold italic" data-i18n="thanks">Thank you, we&apos;ll see you in Poland.</p>
+      </div>
+    </div>
+  </section>
 
-      <div id="successMessage" class="hidden pt-12">
-        <p class="font-serif text-3xl text-text-secondary italic" id="form-success-key">Thank you, we&apos;ll see you in Poland.</p>
-      </div>
-    </div>
-  </section>
+  <footer class="py-12 text-center border-t" style="border-color:var(--border); background:var(--bg)">
+    <p class="font-sans text-[10px] tracking-[0.3em] uppercase" style="color:var(--muted2)">
+      Felipe &amp; Olga &copy; 2026
+    </p>
+  </footer>
 
-    <footer class="py-12 text-center bg-black light:bg-light-bg-primary/70 text-gray-600 light:text-light-text-primary/60">
-    <p class="font-sans text-[10px] tracking-[0.3em] uppercase">Felipe &amp; Olga &copy; 2026</p>
-  </footer>
+  <script>
+    const htmlEl = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const iconSun = document.getElementById('iconSun');
+    const iconMoon = document.getElementById('iconMoon');
 
-<script>
-    gsap.registerPlugin(ScrollTrigger);
+    function applyTheme(theme) {
+      const isDark = theme === 'dark';
+      htmlEl.classList.toggle('dark', isDark);
+      localStorage.setItem('theme', theme);
 
-    // --- 1. LANGUAGE DATA (i18n Dictionary) ---
-    const translations = {
-      'title-key': { en: 'Felipe & Olga | The Wedding', es: 'Felipe y Olga | La Boda', pl: 'Felipe i Olga | Ślub' },
-      'nav-rsvp-btn': { en: 'RSVP', es: 'Confirmar Asistencia', pl: 'Potwierdź Obecność' },
-      'hero-date-key': { en: 'Save the date', es: 'Aparta la fecha', pl: 'Zapisz datę' },
-      'hero-location-key': { en: 'Poland', es: 'Polonia', pl: 'Polska' },
-      'scroll-key': { en: 'Scroll', es: 'Deslizar', pl: 'Przewiń' },
-      'quote-key': { en: '"We loved with a love that was more than love."', es: '"Amamos con un amor que era más que amor."', pl: '"Kochaliśmy miłością, która była czymś więcej niż miłością."' },
-      'details-when-key': { en: 'The When', es: 'Cuándo', pl: 'Kiedy' },
-      'details-time-key': { en: 'Ceremony begins at 4:00 PM', es: 'La ceremonia comienza a las 4:00 PM', pl: 'Ceremonia rozpoczyna się o 16:00' },
-      'details-where-key': { en: 'The Where', es: 'Dónde', pl: 'Gdzie' },
-      'details-location-key': { en: 'Poland', es: 'Polonia', pl: 'Polska' },
-      'details-city-key': { en: 'City & venue to be confirmed.', es: 'Ciudad y lugar por confirmar.', pl: 'Miasto i lokalizacja do potwierdzenia.' },
-      'details-follow-up-key': { en: 'More details and formal invitations to follow.', es: 'Más detalles e invitaciones formales a seguir.', pl: 'Więcej szczegółów i formalne zaproszenia wkrótce.' },
-      'rsvp-join-key': { en: 'Join Us', es: 'Únete a Nosotros', pl: 'Dołącz do Nas' },
-      'rsvp-title-key': { en: 'Kindred Spirits', es: 'Almas Gemelas', pl: 'Pokrewne Dusze' },
-      
-      // Form Labels
-      'form-name-label-key': { en: 'Your Name', es: 'Tu Nombre', pl: 'Twoje Imię' },
-      'form-email-label-key': { en: 'Email Address', es: 'Correo Electrónico', pl: 'Adres E-mail' },
-      'form-accept-key': { en: 'Joyfully Accept', es: 'Acepto con Alegría', pl: 'Radośnie Akceptuję' },
-      'form-decline-key': { en: 'Regretfully Decline', es: 'Lamento Declinár', pl: 'Z Żalem Odmawiam' },
-      'form-submit-key': { en: 'Send Confirmation', es: 'Enviar Confirmación', pl: 'Wyślij Potwierdzenie' },
-      'form-success-key': { en: "Thank you, we'll see you in Poland.", es: 'Gracias, nos veremos en Polonia.', pl: 'Dziękujemy, do zobaczenia w Polsce.' },
+      iconSun.style.display = isDark ? 'inline-block' : 'none';
+      iconMoon.style.display = isDark ? 'none' : 'inline-block';
+    }
 
-      // Placeholders
-      'form-name-input-key-placeholder': { en: 'Enter your full name', es: 'Introduce tu nombre completo', pl: 'Wprowadź swoje pełne imię i nazwisko' },
-      'form-email-input-key-placeholder': { en: 'Where can we reach you?', es: '¿Dónde podemos contactarte?', pl: 'Gdzie możemy się z Tobą skontaktować?' },
-    };
+    function initTheme() {
+      const stored = localStorage.getItem('theme');
+      if (stored === 'dark' || stored === 'light') return applyTheme(stored);
+      const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(prefersDark ? 'dark' : 'light');
+    }
 
-    // --- 2. THEME MANAGEMENT ---
-    const htmlEl = document.documentElement;
-    const modeToggle = document.getElementById('mode-toggle');
-    const sunIcon = document.getElementById('sun-icon');
-    const moonIcon = document.getElementById('moon-icon');
+    themeToggle.addEventListener('click', () => {
+      applyTheme(htmlEl.classList.contains('dark') ? 'light' : 'dark');
+    });
 
-    function updateMode(isDarkMode) {
-      if (isDarkMode) {
-        htmlEl.classList.add('dark');
-        htmlEl.classList.remove('light');
-        sunIcon.classList.add('hidden');
-        moonIcon.classList.remove('hidden');
-        localStorage.setItem('theme', 'dark');
-      } else {
-        htmlEl.classList.remove('dark');
-        htmlEl.classList.add('light');
-        moonIcon.classList.add('hidden');
-        sunIcon.classList.remove('hidden');
-        localStorage.setItem('theme', 'light');
-      }
-    }
+    const langSelect = document.getElementById('langSelect');
 
-    // Initial theme setup
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const translations = {
+      en: {
+        est: "Est.",
+        rsvp: "RSVP",
+        saveTheDate: "Save the date",
+        heroDate: "08 August 2026",
+        heroCountry: "Poland",
+        scroll: "Scroll",
+        quote: '"We loved with a love that was more than love."',
+        quoteAuthor: "— Edgar Allan Poe",
+        whenTitle: "The When",
+        whenDate: "August 8th, 2026",
+        whenTime: "Ceremony begins at 4:00 PM",
+        whereTitle: "The Where",
+        whereCountry: "Poland",
+        whereVenue: "City & venue to be confirmed.",
+        whereMore: "More details and formal invitations to follow.",
+        joinUs: "Join Us",
+        kindredSpirits: "Kindred Spirits",
+        nameLabel: "Your Name",
+        namePlaceholder: "Enter your full name",
+        emailLabel: "Email Address",
+        emailPlaceholder: "Where can we reach you?",
+        accept: "Joyfully Accept",
+        decline: "Regretfully Decline",
+        send: "Send Confirmation",
+        thanks: "Thank you, we'll see you in Poland."
+      },
+      es: {
+        est: "Est.",
+        rsvp: "Confirmar",
+        saveTheDate: "Reserva la fecha",
+        heroDate: "08 de agosto de 2026",
+        heroCountry: "Polonia",
+        scroll: "Desliza",
+        quote: '"Amamos con un amor que era más que amor."',
+        quoteAuthor: "— Edgar Allan Poe",
+        whenTitle: "Cuándo",
+        whenDate: "8 de agosto de 2026",
+        whenTime: "La ceremonia empieza a las 4:00 PM",
+        whereTitle: "Dónde",
+        whereCountry: "Polonia",
+        whereVenue: "Ciudad y lugar por confirmar.",
+        whereMore: "Más detalles e invitaciones formales próximamente.",
+        joinUs: "Acompáñanos",
+        kindredSpirits: "Almas afines",
+        nameLabel: "Tu nombre",
+        namePlaceholder: "Escribe tu nombre completo",
+        emailLabel: "Correo electrónico",
+        emailPlaceholder: "¿A qué correo te escribimos?",
+        accept: "Acepto con alegría",
+        decline: "Con pena rechazo",
+        send: "Enviar confirmación",
+        thanks: "Gracias, nos vemos en Polonia."
+      },
+      pl: {
+        est: "Est.",
+        rsvp: "Potwierdź",
+        saveTheDate: "Zarezerwuj datę",
+        heroDate: "8 sierpnia 2026",
+        heroCountry: "Polska",
+        scroll: "Przewiń",
+        quote: '"Kochaliśmy miłością, która była czymś więcej niż miłością."',
+        quoteAuthor: "— Edgar Allan Poe",
+        whenTitle: "Kiedy",
+        whenDate: "8 sierpnia 2026",
+        whenTime: "Ceremonia rozpoczyna się o 16:00",
+        whereTitle: "Gdzie",
+        whereCountry: "Polska",
+        whereVenue: "Miasto i miejsce wkrótce.",
+        whereMore: "Więcej szczegółów i oficjalne zaproszenia wkrótce.",
+        joinUs: "Dołącz do nas",
+        kindredSpirits: "Pokrewne dusze",
+        nameLabel: "Imię i nazwisko",
+        namePlaceholder: "Wpisz imię i nazwisko",
+        emailLabel: "Email",
+        emailPlaceholder: "Na jaki adres możemy napisać?",
+        accept: "Z radością przyjmuję",
+        decline: "Z żalem odmawiam",
+        send: "Wyślij potwierdzenie",
+        thanks: "Dziękujemy, do zobaczenia w Polsce."
+      }
+    };
 
-    if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
-      updateMode(false);
-    } else {
-      updateMode(true);
-    }
-    
-    modeToggle.addEventListener('click', () => {
-      const isDarkMode = htmlEl.classList.contains('dark');
-      updateMode(!isDarkMode);
-    });
+    function applyLanguage(lang) {
+      const dict = translations[lang] || translations.en;
+      localStorage.setItem('lang', lang);
+      document.documentElement.lang = lang;
 
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = dict[key] ?? translations.en[key] ?? el.textContent;
+      });
 
-    // --- 3. LANGUAGE MANAGEMENT ---
-    const langDropdown = document.getElementById('lang-dropdown');
-    const langButton = document.getElementById('lang-button');
-    const langLinks = langDropdown.querySelectorAll('a');
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        el.setAttribute('placeholder', dict[key] ?? translations.en[key] ?? el.getAttribute('placeholder') || '');
+      });
+    }
 
-    function applyLanguage(lang) {
-      
-      // Loop through the translation keys in the dictionary
-      Object.entries(translations).forEach(([key, values]) => {
-        const element = document.getElementById(key);
+    function initLanguage() {
+      const stored = localStorage.getItem('lang');
+      const lang = (stored === 'en' || stored === 'es' || stored === 'pl') ? stored : 'en';
+      langSelect.value = lang;
+      applyLanguage(lang);
+    }
 
-        if (element && values[lang]) {
-          const translation = values[lang];
+    langSelect.addEventListener('change', (e) => applyLanguage(e.target.value));
 
-          if (key.endsWith('-placeholder')) {
-            // Handle placeholders (key is 'input-id-placeholder')
-            const targetId = key.replace('-placeholder', '');
-            const inputElement = document.getElementById(targetId);
-            if (inputElement) {
-              inputElement.placeholder = translation;
-            }
-          } else if (element.tagName === 'TITLE') {
-            // Handle <title>
-            document.title = translation;
-          } else {
-            // All other text content
-            element.innerHTML = translation;
-          }
-        }
-      });
+    // Loader hide (always)
+    function hideLoaderNow() {
+      const loader = document.getElementById('loader');
+      if (!loader) return;
+      loader.style.transition = 'opacity 500ms ease';
+      loader.style.opacity = '0';
+      loader.style.pointerEvents = 'none';
+      setTimeout(() => loader.remove(), 520);
+    }
 
-      langButton.textContent = lang.toUpperCase();
-      localStorage.setItem('language', lang);
-    }
+    window.addEventListener('load', () => {
+      initTheme();
+      initLanguage();
+      hideLoaderNow();
 
-    // Dropdown toggle
-    langButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      langDropdown.classList.toggle('hidden');
-    });
+      // Optional animations
+      if (window.gsap) {
+        if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
-    // Language selection handler
-    langLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        applyLanguage(link.getAttribute('data-lang'));
-        langDropdown.classList.add('hidden');
-      });
-    });
+        gsap.from("#navbar", { opacity: 0, y: -10, duration: 0.8, ease: "power3.out", delay: 0.1 });
+        gsap.from(".reveal-text", { y: 26, opacity: 0, duration: 1.05, ease: "power3.out", delay: 0.25 });
 
-    // Initial load: Apply saved language
-    const savedLang = localStorage.getItem('language') || 'en';
-    applyLanguage(savedLang);
+        gsap.to("#hero-image", {
+          scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: true },
+          y: 140, opacity: 0.35, scale: 1.08, ease: "none"
+        });
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!langButton.contains(e.target) && !langDropdown.contains(e.target)) {
-        langDropdown.classList.add('hidden');
-      }
-    });
+        document.querySelectorAll(".scroll-trigger").forEach((el) => {
+          gsap.fromTo(el, { y: 40, opacity: 0 }, {
+            scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none reverse" },
+            y: 0, opacity: 1, duration: 1.05, ease: "power3.out"
+          });
+        });
+      }
+    });
 
-    // --- 4. GSAP/ScrollTrigger Logic ---
-    // (Remains unchanged)
-    
-    window.addEventListener('load', () => {
-      const tl = gsap.timeline();
-      tl.to("#loader h1", { opacity: 0, duration: 0.5, delay: 0.9 })
-        .to("#loader", { height: 0, duration: 1, ease: "power4.inOut" })
-        .to("#navbar", { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, "-=0.55")
-        .from(".reveal-text", { y: 26, opacity: 0, duration: 1.1, ease: "power3.out" }, "-=0.45");
-    });
+    // Form handling
+    const form = document.getElementById('rsvpForm');
+    const successMsg = document.getElementById('successMessage');
 
-    gsap.to("#hero-image", {
-      scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: true },
-      y: 140, opacity: 0.35, scale: 1.08, ease: "none"
-    });
-
-    document.querySelectorAll(".scroll-trigger").forEach((el) => {
-      gsap.fromTo(el, { y: 40, opacity: 0 }, {
-        scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none reverse" },
-        y: 0, opacity: 1, duration: 1.1, ease: "power3.out"
-      });
-    });
-
-    // Form handling (frontend only)
-    const form = document.getElementById('rsvpForm');
-    const successMsg = document.getElementById('successMessage');
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      gsap.to(form, {
-        opacity: 0, y: -16, duration: 0.5,
-        onComplete: () => {
-          form.style.display = 'none';
-          successMsg.classList.remove('hidden');
-          gsap.fromTo(successMsg, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
-        }
-      });
-    });
-  </script>
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.style.display = 'none';
+      successMsg.classList.remove('hidden');
+    });
+  </script>
 </body>
 </html>
