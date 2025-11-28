@@ -1,3 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="title-key">Felipe & Olga | The Wedding</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <script>
+    // Using custom colors to easily switch light/dark
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            // Dark Mode (Default)
+            'bg-primary': '#0f1110', 
+            'text-primary': '#e8e6e1', 
+            'text-secondary': '#a89f91', // Gold Accent
+
+            // Light Mode Overrides (Used with 'light:' prefix)
+            'light-bg-primary': '#fefcf8', 
+            'light-text-primary': '#1f2120', 
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['Manrope', 'system-ui', 'sans-serif'],
+          },
+          backgroundImage: {
+            'hero-pattern': "url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2669&auto=format&fit=crop')",
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* --- BASE (Dark Mode) --- */
+    body {
+      background-color: #0f1110; /* bg-primary */
+      color: #e8e6e1; /* text-primary */
+      overflow-x: hidden;
+    }
+    ::selection { background: #a89f91; color: #0f1110; }
+    .parallax-bg { background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover; }
+    @media (max-width: 768px) { .parallax-bg { background-attachment: scroll; } }
+    
+    .input-line {
+      background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.22); color: #e8e6e1;
+      padding: 10px 0; width: 100%; transition: border-color 0.35s ease, color 0.35s ease;
+    }
+    .input-line:focus { outline: none; border-bottom: 1px solid rgba(232,230,225,0.9); }
+
+    /* --- LIGHT MODE OVERRIDES --- */
+    .light body { background-color: #fefcf8; color: #1f2120; }
+    .light .input-line { border-bottom: 1px solid rgba(31, 33, 32, 0.2); color: #1f2120; }
+    .light .input-line:focus { border-bottom: 1px solid rgba(31, 33, 32, 0.9); }
+
+    /* Grain overlay and loader remain the same */
+    .grain-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 40;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    }
+    #loader { position: fixed; inset: 0; background: #0f1110; z-index: 100; display: flex; justify-content: center; align-items: center; }
+    .light #loader { background: #fefcf8; }
+  </style>
+</head>
+
+<body class="font-sans antialiased">
+
+    <div class="grain-overlay"></div>
+
+    <div id="loader">
+    <div class="text-center">
+      <h1 class="font-serif text-3xl tracking-[0.22em] text-text-secondary uppercase animate-pulse">F &amp; O</h1>
+    </div>
+  </div>
+
+    <nav class="fixed w-full z-50 top-0 left-0 px-6 md:px-10 pt-6 md:pt-10 opacity-0 translate-y-3" id="navbar">
+    <div class="mx-auto max-w-6xl flex justify-between items-center px-5 py-3 rounded-full border border-white/10 bg-bg-primary/25 backdrop-blur-md text-text-primary light:border-light-text-primary/10 light:bg-light-bg-primary/60 light:text-light-text-primary transition-colors duration-500">
+      
+      <div class="text-xs tracking-[0.2em] uppercase">Est. 2026</div>
+      
+      <div class="flex items-center space-x-4">
+                <div class="relative group">
+          <button id="lang-button" class="text-xs tracking-[0.2em] uppercase text-text-primary/70 hover:text-text-secondary transition-colors duration-300">
+            EN
+          </button>
+          <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-20 rounded-md shadow-lg py-1 bg-bg-primary/75 backdrop-blur-sm ring-1 ring-white/10 light:bg-light-bg-primary/90 light:ring-light-text-primary/10">
+            <a href="#" data-lang="en" class="block px-3 py-1 text-xs tracking-[0.1em] uppercase hover:bg-text-secondary/20 text-text-primary light:text-light-text-primary">English</a>
+            <a href="#" data-lang="es" class="block px-3 py-1 text-xs tracking-[0.1em] uppercase hover:bg-text-secondary/20 text-text-primary light:text-light-text-primary">Español</a>
+            <a href="#" data-lang="pl" class="block px-3 py-1 text-xs tracking-[0.1em] uppercase hover:bg-text-secondary/20 text-text-primary light:text-light-text-primary">Polski</a>
+          </div>
+        </div>
+
+                <button 
+          id="mode-toggle"
+          type="button" 
+          class="p-1 rounded-full text-text-primary/70 hover:text-text-secondary transition-colors duration-300"
+        >
+          <svg id="sun-icon" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"></path></svg>
+          <svg id="moon-icon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+                <button
+          type="button"
+          class="text-xs tracking-[0.2em] uppercase hover:text-text-secondary transition-colors duration-300"
+          onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})"
+          id="nav-rsvp-btn"
+        >
+          RSVP
+        </button>
+      </div>
+    </div>
+  </nav>
+
+    <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <div class="absolute inset-0 z-0 opacity-70 scale-105 bg-hero-pattern parallax-bg" id="hero-image"></div>
+
+        <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-bg-primary/40 to-bg-primary light:from-light-bg-primary/55 light:via-light-bg-primary/40 light:to-light-bg-primary z-10"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(168,159,145,0.25),_transparent_60%)] z-10"></div>
+
+        <div class="relative z-20 w-full px-6">
+      <div class="mx-auto max-w-3xl text-center">
+        <div class="reveal-text inline-block rounded-2xl border border-white/10 bg-bg-primary/25 backdrop-blur-md px-8 py-10 md:px-12 md:py-12 light:border-light-text-primary/10 light:bg-light-bg-primary/40">
+          <p class="font-sans text-[0.65rem] md:text-xs tracking-[0.32em] uppercase text-text-secondary/90"
+            id="hero-date-key">
+            Save the date
+          </p>
+
+          <h1 class="mt-7 font-serif text-5xl md:text-7xl leading-none tracking-[0.01em] text-text-primary light:text-light-text-primary">
+            Felipe <span class="italic text-text-secondary/80">&amp;</span> Olga
+          </h1>
+
+          <div class="mt-7 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 font-sans text-[0.65rem] md:text-[0.75rem] tracking-[0.26em] uppercase text-text-primary/70 light:text-light-text-primary/70">
+            <span>08 August 2026</span>
+            <span class="hidden md:inline w-10 h-px bg-gradient-to-r from-transparent via-text-secondary/80 to-transparent"></span>
+            <span id="hero-location-key">Poland</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+      <div class="flex flex-col items-center gap-3 text-text-primary/60 light:text-light-text-primary/60">
+        <span class="font-sans text-[0.6rem] tracking-[0.35em] uppercase" id="scroll-key">Scroll</span>
+        <div class="w-[1px] h-12 bg-gradient-to-b from-text-secondary/80 to-transparent animate-pulse"></div>
+      </div>
+    </div>
+  </section>
+
+    <section class="relative py-32 px-6 flex flex-col items-center justify-center text-center bg-bg-primary light:bg-light-bg-primary border-t border-b border-white/5 light:border-light-text-primary/10">
+    <div class="max-w-2xl mx-auto scroll-trigger">
+      <h2 class="font-serif text-3xl md:text-5xl leading-tight mb-8 text-text-primary light:text-light-text-primary"
+        id="quote-key">
+        "We loved with a love that was more than love."
+      </h2>
+      <p class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-text-secondary">— Edgar Allan Poe</p>
+      <div class="w-px h-24 bg-gradient-to-b from-text-secondary to-transparent mx-auto mt-12"></div>
+    </div>
+  </section>
+
+    <section class="relative min-h-screen flex flex-col md:flex-row bg-bg-primary/5 light:bg-light-bg-primary/50">
+        <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative overflow-hidden">
+      <div
+        class="absolute inset-0 bg-cover bg-center transition-transform duration-[1400ms] hover:scale-105"
+        style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2670&auto=format&fit=crop');">
+      </div>
+      <div class="absolute inset-0 bg-bg-primary/35 light:bg-light-bg-primary/35"></div>
+    </div>
+
+        <div class="w-full md:w-1/2 flex flex-col justify-center p-12 md:p-24 bg-bg-primary light:bg-light-bg-primary text-text-primary light:text-light-text-primary">
+      <div class="scroll-trigger space-y-12">
+        <div>
+          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-text-secondary mb-4" id="details-when-key">The When</h3>
+          <p class="font-serif text-3xl md:text-4xl mb-2">August 8th, 2026</p>
+          <p class="font-sans text-xs text-gray-400 light:text-gray-600 font-light" id="details-time-key">Ceremony begins at 4:00 PM</p>
+        </div>
+
+        <div>
+          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-text-secondary mb-4" id="details-where-key">The Where</h3>
+          <p class="font-serif text-3xl md:text-4xl mb-2" id="details-location-key">Poland</p>
+          <p class="font-sans text-sm text-gray-400 light:text-gray-600 font-light" id="details-city-key">City &amp; venue to be confirmed.</p>
+          <p class="font-sans text-[0.7rem] text-gray-500 mt-2 italic" id="details-follow-up-key">More details and formal invitations to follow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <section id="rsvp" class="relative py-32 px-4 md:px-0 bg-bg-primary light:bg-light-bg-primary border-t border-white/5 light:border-light-text-primary/10">
+    <div class="max-w-xl mx-auto text-center scroll-trigger text-text-primary light:text-light-text-primary">
+      <span class="font-sans text-[0.7rem] tracking-[0.3em] uppercase text-text-secondary mb-4 block" id="rsvp-join-key">Join Us</span>
+      <h2 class="font-serif text-5xl md:text-6xl mb-12" id="rsvp-title-key">Kindred Spirits</h2>
+
+      <form id="rsvpForm" class="space-y-12 text-left">
+        <div class="group">
+          <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase text-gray-500 mb-2 group-focus-within:text-text-secondary transition-colors"
+            id="form-name-label-key">
+            Your Name
+          </label>
+          <input type="text" required class="input-line font-serif text-2xl" id="form-name-input-key" placeholder="Enter your full name">
+        </div>
+
+        <div class="group">
+          <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase text-gray-500 mb-2 group-focus-within:text-text-secondary transition-colors"
+            id="form-email-label-key">
+            Email Address
+          </label>
+          <input type="email" required class="input-line font-serif text-2xl" id="form-email-input-key" placeholder="Where can we reach you?">
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center pt-8">
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input type="radio" name="attendance" value="yes" class="peer sr-only" required>
+            <span class="w-4 h-4 border border-text-secondary rounded-full peer-checked:bg-text-secondary transition-all"></span>
+            <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-gray-400 light:text-gray-600 peer-checked:text-text-primary light:peer-checked:text-light-text-primary transition-colors"
+              id="form-accept-key">
+              Joyfully Accept
+            </span>
+          </label>
+
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input type="radio" name="attendance" value="no" class="peer sr-only">
+            <span class="w-4 h-4 border border-text-secondary rounded-full peer-checked:bg-text-secondary transition-all"></span>
+            <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase text-gray-400 light:text-gray-600 peer-checked:text-text-primary light:peer-checked:text-light-text-primary transition-colors"
+              id="form-decline-key">
+              Regretfully Decline
+            </span>
+          </label>
+        </div>
+
+        <div class="text-center pt-12">
+          <button type="submit" class="font-serif italic text-xl md:text-2xl text-text-primary light:text-light-text-primary hover:text-text-secondary transition-colors duration-500 relative group"
+            id="form-submit-key">
+            Send Confirmation
+            <span class="absolute -bottom-2 left-0 w-0 h-px bg-text-secondary transition-all duration-500 group-hover:w-full"></span>
+          </button>
+        </div>
+      </form>
+
+      <div id="successMessage" class="hidden pt-12">
+        <p class="font-serif text-3xl text-text-secondary italic" id="form-success-key">Thank you, we&apos;ll see you in Poland.</p>
+      </div>
+    </div>
+  </section>
+
+    <footer class="py-12 text-center bg-black light:bg-light-bg-primary/70 text-gray-600 light:text-light-text-primary/60">
+    <p class="font-sans text-[10px] tracking-[0.3em] uppercase">Felipe &amp; Olga &copy; 2026</p>
+  </footer>
+
 <script>
     gsap.registerPlugin(ScrollTrigger);
 
