@@ -8,7 +8,7 @@
   <!-- Typography: Cormorant Garamond (Elegant Serif) + Inter (Clean Sans) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@200;300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 
   <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,12 +19,13 @@
         extend: {
           colors: { 
             'lux-gold': '#a89f91',
-            'lux-black': '#1a1c1b',
-            'lux-paper': '#f6f3ee'
+            'lux-black': '#1a1a1a',
+            'lux-paper': '#f9f8f4'
           },
           fontFamily: {
             serif: ['"Cormorant Garamond"', 'serif'],
             sans: ['Inter', 'sans-serif'],
+            script: ['"Pinyon Script"', 'cursive'],
           }
         }
       }
@@ -107,13 +108,13 @@
     /* Navbar */
     #navbar { transition: background-color 0.6s ease, padding 0.6s ease; }
     #navbar.scrolled { 
-      background: rgba(255,255,255,0.8); 
+      background: rgba(255,255,255,0.85); 
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       padding-top: 1rem;
       padding-bottom: 1rem;
     }
-    html.dark #navbar.scrolled { background: rgba(15,15,15,0.8); }
+    html.dark #navbar.scrolled { background: rgba(15,15,15,0.85); }
     #navbar.scrolled .nav-text { color: var(--text) !important; }
     
     #navBrand { 
@@ -167,7 +168,7 @@
       height: 36px; display: inline-flex; align-items: center; justify-content: center;
       border: 1px solid var(--border); background: var(--surface); backdrop-filter: blur(12px);
       border-radius: 9999px; padding: 0 14px; color: var(--text);
-      transition: all 0.3s ease; white-space: nowrap; cursor: pointer;
+      transition: all 0.3s ease; white-space: nowrap; cursor: pointer; font-family: 'Inter', sans-serif;
     }
     .control:hover{ opacity: 0.8; transform: translateY(-1px); }
 
@@ -177,7 +178,7 @@
       border-radius: 9999px; border: 1px solid var(--border);
       background: var(--surface); color: var(--text);
       font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-      outline: none; cursor: pointer;
+      outline: none; cursor: pointer; font-family: 'Inter', sans-serif;
     }
     .select-wrap svg{ position:absolute; right: 10px; width: 12px; height: 12px; pointer-events: none; color: var(--text); }
 
@@ -203,6 +204,7 @@
     .photo-frame{
       position: relative; overflow: hidden;
       background: var(--surface);
+      border: 4px solid #fff; /* Photo border effect */
       box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
     }
     .photo-frame img{
@@ -309,10 +311,10 @@
         <div class="flex items-center gap-2 md:gap-4">
           <div class="hidden md:flex gap-2">
             <button class="control" onclick="document.getElementById('venue').scrollIntoView({behavior:'smooth'})">
-              <span class="text-[10px] tracking-widest uppercase" data-i18n="venueNav">Venue</span>
+              <span class="text-[10px] tracking-widest uppercase font-sans" data-i18n="venueNav">Venue</span>
             </button>
             <button class="control" onclick="document.getElementById('travel').scrollIntoView({behavior:'smooth'})">
-              <span class="text-[10px] tracking-widest uppercase" data-i18n="guideNav">Guide</span>
+              <span class="text-[10px] tracking-widest uppercase font-sans" data-i18n="guideNav">Guide</span>
             </button>
           </div>
 
@@ -331,7 +333,7 @@
 
           <button class="control bg-[#a89f91] border-[#a89f91] text-white hover:bg-[#8f877a] hover:border-[#8f877a]" 
                   onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})">
-            <span class="text-[10px] tracking-widest uppercase" data-i18n="rsvp">RSVP</span>
+            <span class="text-[10px] tracking-widest uppercase font-sans" data-i18n="rsvp">RSVP</span>
           </button>
         </div>
       </div>
@@ -347,7 +349,7 @@
       <div class="absolute inset-0 z-10" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1), rgba(0,0,0,0.4));"></div>
       
       <div class="relative z-20 text-center text-white px-6">
-        <p class="font-sans text-[0.6rem] tracking-[0.4em] uppercase opacity-90 mb-6" data-i18n="saveTheDate">Save the date</p>
+        <p class="font-script text-3xl md:text-4xl text-[#e8e6e1] opacity-90 mb-4" data-i18n="saveTheDate">Save the date</p>
         <h1 class="font-serif text-5xl md:text-8xl leading-none tracking-tight mb-6">
           Felipe <span class="italic font-light opacity-80">&amp;</span> Olga
         </h1>
@@ -369,7 +371,7 @@
       <!-- Invitation Text -->
       <section class="py-32 px-6">
         <div class="max-w-2xl mx-auto text-center scroll-trigger">
-          <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-6 block" data-i18n="messageLabel">The Celebration</span>
+          <span class="font-script text-3xl text-accent mb-4 block" data-i18n="messageLabel">The Celebration</span>
           <h2 class="font-serif text-3xl md:text-5xl leading-tight text-main mb-8" data-i18n="messageTitle">
             We invite you to share in our joy.
           </h2>
@@ -393,7 +395,7 @@
       <section class="py-32 px-6">
         <div class="max-w-6xl mx-auto">
           <div class="text-center mb-24 scroll-trigger">
-            <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent" data-i18n="galleryLabel">Moments</span>
+            <span class="font-script text-3xl text-accent" data-i18n="galleryLabel">Moments</span>
           </div>
           <div class="flex flex-col md:flex-row gap-16 md:gap-32 items-center">
             <div class="w-full md:w-5/12 scroll-trigger">
@@ -416,9 +418,13 @@
         </div>
       </section>
 
-      <!-- PHOTO 04 -->
-      <div class="parallax-wrap h-[40vh] md:h-[60vh]">
-        <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/04.jpg" alt="Wide View" class="parallax-media" loading="lazy" />
+      <!-- PHOTO 04: Fixed Wide View -->
+      <div class="parallax-wrap h-[50vh] md:h-[70vh]">
+        <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/04.jpg" 
+             alt="Wide View" 
+             class="parallax-media" 
+             loading="lazy" 
+             style="top: 0; object-position: center; height: 120%;" />
       </div>
 
       <!-- VENUE (Updated Layout & Title) -->
@@ -426,15 +432,16 @@
         
         <!-- Large Full-Width Image Container -->
         <div class="venue-img-container scroll-trigger">
+          <!-- Hotel Image (Fixed URL) -->
           <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/hotel.png" 
                alt="Mazurski Raj Aerial View" class="venue-bg-img" loading="lazy" id="venue-bg">
         </div>
 
         <!-- Content Card (Overlapping) -->
         <div class="max-w-6xl mx-auto px-6">
-          <div class="glass-card-overlap max-w-2xl mx-auto p-10 md:p-14 text-center scroll-trigger delay-100">
+          <div id="venue-info-card" class="glass-card-overlap max-w-2xl mx-auto p-10 md:p-14 text-center">
             
-            <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-4 block" data-i18n="venueTitle">The Venue</span>
+            <span class="font-script text-3xl text-accent mb-4 block" data-i18n="venueTitle">The Venue</span>
             <h3 class="font-serif text-4xl md:text-5xl text-main mb-6" data-i18n="venueName">Mazurski Raj</h3>
             <p class="font-sans text-sm text-muted leading-relaxed mb-8" data-i18n="venueBlurb">
               A stunning retreat in the heart of Masuria. Surrounded by forest and lake, it is the perfect place to celebrate nature and love.
@@ -456,8 +463,8 @@
             </div>
 
             <div class="flex justify-center gap-6">
-              <a href="https://www.mazurskiraj.pl/" target="_blank" class="border-b border-[#a89f91] text-[10px] uppercase tracking-widest pb-1 hover:text-accent transition-colors" data-i18n="venueSiteBtn">Official Website</a>
-              <a href="https://goo.gl/maps/XYZ" target="_blank" class="border-b border-[#a89f91] text-[10px] uppercase tracking-widest pb-1 hover:text-accent transition-colors" data-i18n="venueDirectionsBtn">Directions</a>
+              <a href="https://www.mazurskiraj.pl/" target="_blank" class="border-b border-[#a89f91] text-[10px] uppercase tracking-widest pb-1 hover:text-accent transition-colors font-sans" data-i18n="venueSiteBtn">Official Website</a>
+              <a href="https://goo.gl/maps/XYZ" target="_blank" class="border-b border-[#a89f91] text-[10px] uppercase tracking-widest pb-1 hover:text-accent transition-colors font-sans" data-i18n="venueDirectionsBtn">Directions</a>
             </div>
           </div>
         </div>
@@ -467,7 +474,7 @@
       <section id="travel" class="py-32 px-6">
         <div class="max-w-4xl mx-auto scroll-trigger">
           <div class="text-center mb-24">
-            <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent" data-i18n="guideLabel">The Guide</span>
+            <span class="font-script text-3xl text-accent" data-i18n="guideLabel">The Guide</span>
             <h3 class="font-serif text-4xl mt-4 text-main" data-i18n="guideHeadline">A weekend in Mazury</h3>
             <div class="hairline"></div>
           </div>
@@ -534,7 +541,7 @@
       <!-- GUESTBOOK -->
       <section id="guestbook" class="py-32 px-6">
         <div class="max-w-3xl mx-auto text-center scroll-trigger">
-          <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-4 block" data-i18n="guestLabel">Guestbook</span>
+          <span class="font-script text-3xl text-accent mb-4 block" data-i18n="guestLabel">Guestbook</span>
           <h3 class="font-serif text-4xl mb-8 text-main" data-i18n="guestTitle">Leave a note</h3>
           
           <form id="guestbookForm" class="space-y-8 mt-12 text-left">
@@ -571,7 +578,7 @@
             <div class="grid grid-cols-2 gap-6">
               <div class="group">
                 <label class="block font-sans text-[0.6rem] tracking-[0.2em] uppercase text-muted2 mb-2" data-i18n="guestCountLabel">Total Guests</label>
-                <select name="guestCount" class="input-line bg-transparent cursor-pointer">
+                <select name="guestCount" class="input-line bg-transparent cursor-pointer font-sans">
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -670,20 +677,41 @@
 
       document.querySelectorAll(".scroll-trigger").forEach(el => {
         gsap.fromTo(el, { y: 40, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 1.2, ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 85%" }
+          y: 0, opacity: 1, duration: 0.8, // Faster global
+          ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 90%" } // Earlier trigger
         });
       });
+
+      // Specific Venue Card Animation (Faster)
+      gsap.fromTo("#venue-info-card", 
+        { y: 50, opacity: 0 },
+        { 
+          y: 0, opacity: 1, duration: 0.8, ease: "power2.out",
+          scrollTrigger: { 
+            trigger: "#venue-info-card", 
+            start: "top 95%" // Triggers almost immediately when appearing on screen
+          } 
+        }
+      );
 
       // Parallax
       document.querySelectorAll(".parallax-wrap").forEach(wrap => {
         const img = wrap.querySelector(".parallax-media");
         if(img) {
-          // Special fix for Photo 01
+          // Special fix for Photo 01 (Hand/Ring) to keep it visible
           if(img.src.includes("01.png") && !img.alt.includes("Finale")) {
              gsap.to(img, {
-               y: "10%", ease: "none",
+               y: "10%", 
+               ease: "none",
                scrollTrigger: { trigger: wrap, start: "top top", end: "bottom top", scrub: true }
+             });
+          } else if(img.src.includes("04.jpg")) { 
+             // Wide photo parallax fix - ensure top/center alignment
+             gsap.fromTo(img, { y: "0%" }, {
+               y: "10%",
+               ease: "none",
+               scrollTrigger: { trigger: wrap, start: "top bottom", end: "bottom top", scrub: true }
              });
           } else {
              gsap.to(img, {
@@ -747,22 +775,22 @@
           venueNav: "Venue", guestbookNav: "Guestbook", guideNav: "Guide", rsvp: "RSVP"
         },
         es: {
-          saveTheDate: "Reserva la Fecha", heroDate: "08 de Agosto de 2026", heroRegion: "Mazuria, Polonia",
-          messageLabel: "La Celebración", messageTitle: "Os invitamos a compartir nuestra alegría.", messageBody: "Estamos encantados de invitaros a celebrar nuestro matrimonio. Esta web es vuestra invitación formal. Significaría mucho teneros a nuestro lado. Acompañadnos en Polonia el 8 de agosto de 2026.",
+          saveTheDate: "Reserva la Fecha", heroDate: "08 de Agosto de 2026", heroRegion: "Masuria, Polonia",
+          messageLabel: "La Celebración", messageTitle: "Los invitamos a compartir nuestra alegría.", messageBody: "Estamos felices de invitarlos a celebrar nuestro matrimonio. Este sitio web sirve como su invitación formal. Significaría mucho para nosotros tenerlos a nuestro lado al comenzar este nuevo capítulo juntos. Por favor, acompáñennos en Polonia el 8 de agosto de 2026.",
           galleryLabel: "Momentos", galleryTitle: "Un vistazo de nosotros",
-          whenTitle: "Cuándo", whenDate: "08 Agosto 2026", whenTime: "Ceremonia a las 16:00",
-          whereTitle: "Dónde", venueTitle: "El Lugar", venueName: "Mazurski Raj", venueBlurb: "Un refugio impresionante junto al lago en Ruciane-Nida, en el corazón de Mazuria.",
+          whenTitle: "Cuándo", whenDate: "08 de Agosto de 2026", whenTime: "La ceremonia empieza a las 4:00 PM",
+          whereTitle: "Dónde", venueTitle: "El Lugar", venueName: "Mazurski Raj", venueBlurb: "Un refugio impresionante junto al lago en Ruciane-Nida, en el corazón de Masuria.",
           venueSiteBtn: "Sitio Web", venueDirectionsBtn: "Cómo llegar",
-          guideLabel: "La Guía", guideHeadline: "Un finde en Mazuria",
-          journeyTitle: "El Viaje", journeyBody: "Llegar a la región de los lagos es parte de la aventura. Recomendamos volar a Varsovia (WAW), alquilar un coche y disfrutar de las 3.5h de camino. Olsztyn (SZY) está a solo 1h.",
-          stayTitle: "Despertar", stayBody: "Nos alojamos en Mazurski Raj. No hay nada como despertar con el sonido del lago. Os animamos a reservar aquí para estar cerca.",
-          exploreTitle: "Explorar", exploreBody: "Esta es la 'Tierra de los Mil Lagos'. Si tenéis tiempo, alquilad un kayak en el río Krutynia, es mágico. O dad un paseo por el bosque Piska.",
+          guideLabel: "La Guía", guideHeadline: "Un fin de semana en Masuria",
+          journeyTitle: "El Viaje", journeyBody: "Llegar a la región de los lagos es parte de la aventura. Recomendamos volar a Varsovia (WAW), alquilar un carro y disfrutar de las 3.5h de camino. Olsztyn (SZY) está a solo 1h.",
+          stayTitle: "Despertar", stayBody: "Nos alojamos en Mazurski Raj. No hay nada como despertar con el sonido del lago. Los animamos a reservar aquí para estar cerca.",
+          exploreTitle: "Explorar", exploreBody: "Esta es la 'Tierra de los Mil Lagos'. Si tienen tiempo, alquilen un kayak en el río Krutynia, es mágico. O den un paseo por el bosque de Piska.",
           countTitle: "Hasta el \"sí, quiero\"",
           guestLabel: "Libro de Visitas", guestTitle: "Deja una nota", guestNamePlaceholder: "Tu Nombre", guestFromPlaceholder: "¿De dónde eres?", guestMsgPlaceholder: "Escribe un mensaje...", guestSign: "Firmar",
-          joinUs: "El Placer de vuestra Compañía", kindredSpirits: "RSVP",
-          nameLabel: "Nombre (Principal)", emailLabel: "Email", songLabel: "Canción",
+          joinUs: "El Placer de su Compañía", kindredSpirits: "RSVP",
+          nameLabel: "Nombre (Principal)", emailLabel: "Correo Electrónico", songLabel: "Canción",
           guestCountLabel: "Nº Invitados", otherGuestsLabel: "Nombres Adicionales",
-          accept: "Acepto con Alegría", decline: "Lamentablemente No", send: "Confirmar Asistencia", thanks: "Gracias. Nos vemos allí.",
+          accept: "Acepto con Alegría", decline: "Lamentablemente No", send: "Confirmar Asistencia", thanks: "Gracias. Nos vemos allá.",
           venueNav: "Lugar", guestbookNav: "Libro", guideNav: "Guía", rsvp: "RSVP"
         },
         pl: {
