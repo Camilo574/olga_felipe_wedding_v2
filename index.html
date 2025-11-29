@@ -349,7 +349,8 @@
       <div class="absolute inset-0 z-10" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1), rgba(0,0,0,0.4));"></div>
       
       <div class="relative z-20 text-center text-white px-6">
-        <p class="font-script text-3xl md:text-4xl text-[#e8e6e1] opacity-90 mb-4" data-i18n="saveTheDate">Save the date</p>
+        <!-- REVERTED: Sans-serif uppercase -->
+        <p class="font-sans text-[0.6rem] tracking-[0.4em] uppercase opacity-90 mb-6" data-i18n="saveTheDate">Save the date</p>
         <h1 class="font-serif text-5xl md:text-8xl leading-none tracking-tight mb-6">
           Felipe <span class="italic font-light opacity-80">&amp;</span> Olga
         </h1>
@@ -371,7 +372,8 @@
       <!-- Invitation Text -->
       <section class="py-32 px-6">
         <div class="max-w-2xl mx-auto text-center scroll-trigger">
-          <span class="font-script text-3xl text-accent mb-4 block" data-i18n="messageLabel">The Celebration</span>
+          <!-- REVERTED: Sans-serif uppercase -->
+          <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-6 block" data-i18n="messageLabel">The Celebration</span>
           <h2 class="font-serif text-3xl md:text-5xl leading-tight text-main mb-8" data-i18n="messageTitle">
             We invite you to share in our joy.
           </h2>
@@ -395,7 +397,8 @@
       <section class="py-32 px-6">
         <div class="max-w-6xl mx-auto">
           <div class="text-center mb-24 scroll-trigger">
-            <span class="font-script text-3xl text-accent" data-i18n="galleryLabel">Moments</span>
+            <!-- REVERTED: Sans-serif uppercase -->
+            <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent" data-i18n="galleryLabel">Moments</span>
           </div>
           <div class="flex flex-col md:flex-row gap-16 md:gap-32 items-center">
             <div class="w-full md:w-5/12 scroll-trigger">
@@ -406,7 +409,7 @@
             <div class="w-full md:w-6/12 flex flex-col gap-12 md:mt-24 scroll-trigger">
               <div class="text-center md:text-left">
                 <h3 class="font-serif text-3xl md:text-4xl text-main italic mb-4" data-i18n="galleryTitle">A glimpse of us</h3>
-                <p class="font-sans text-sm text-muted leading-loose">
+                <p class="font-sans text-sm text-muted leading-loose" data-i18n="galleryBody">
                   Love is not just looking at each other, it's looking in the same direction. Here are a few moments from our journey so far.
                 </p>
               </div>
@@ -432,7 +435,6 @@
         
         <!-- Large Full-Width Image Container -->
         <div class="venue-img-container scroll-trigger">
-          <!-- Hotel Image (Fixed URL) -->
           <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/hotel.png" 
                alt="Mazurski Raj Aerial View" class="venue-bg-img" loading="lazy" id="venue-bg">
         </div>
@@ -441,7 +443,8 @@
         <div class="max-w-6xl mx-auto px-6">
           <div id="venue-info-card" class="glass-card-overlap max-w-2xl mx-auto p-10 md:p-14 text-center">
             
-            <span class="font-script text-3xl text-accent mb-4 block" data-i18n="venueTitle">The Venue</span>
+            <!-- REVERTED: Sans-serif uppercase -->
+            <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-4 block" data-i18n="venueTitle">The Venue</span>
             <h3 class="font-serif text-4xl md:text-5xl text-main mb-6" data-i18n="venueName">Mazurski Raj</h3>
             <p class="font-sans text-sm text-muted leading-relaxed mb-8" data-i18n="venueBlurb">
               A stunning retreat in the heart of Masuria. Surrounded by forest and lake, it is the perfect place to celebrate nature and love.
@@ -474,7 +477,8 @@
       <section id="travel" class="py-32 px-6">
         <div class="max-w-4xl mx-auto scroll-trigger">
           <div class="text-center mb-24">
-            <span class="font-script text-3xl text-accent" data-i18n="guideLabel">The Guide</span>
+            <!-- REVERTED: Sans-serif uppercase -->
+            <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent" data-i18n="guideLabel">The Guide</span>
             <h3 class="font-serif text-4xl mt-4 text-main" data-i18n="guideHeadline">A weekend in Mazury</h3>
             <div class="hairline"></div>
           </div>
@@ -538,30 +542,10 @@
         </div>
       </section>
 
-      <!-- GUESTBOOK -->
-      <section id="guestbook" class="py-32 px-6">
-        <div class="max-w-3xl mx-auto text-center scroll-trigger">
-          <span class="font-script text-3xl text-accent mb-4 block" data-i18n="guestLabel">Guestbook</span>
-          <h3 class="font-serif text-4xl mb-8 text-main" data-i18n="guestTitle">Leave a note</h3>
-          
-          <form id="guestbookForm" class="space-y-8 mt-12 text-left">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <input type="text" name="guestName" class="input-line text-lg" placeholder="Your Name" required data-i18n-placeholder="guestNamePlaceholder">
-              <input type="text" name="guestFrom" class="input-line text-lg" placeholder="Where are you from?" data-i18n-placeholder="guestFromPlaceholder">
-            </div>
-            <textarea name="guestMessage" class="input-line text-lg resize-none" rows="2" placeholder="Write a message..." required data-i18n-placeholder="guestMsgPlaceholder"></textarea>
-            <div class="text-center pt-6">
-              <button type="submit" class="control px-8 py-2 uppercase text-xs tracking-widest" data-i18n="guestSign">Sign Guestbook</button>
-            </div>
-          </form>
-
-          <div id="guestList" class="mt-16 space-y-6 text-left opacity-80"></div>
-        </div>
-      </section>
-
-      <!-- RSVP (With Groups) -->
+      <!-- RSVP (With Groups + Guestbook Merged) -->
       <section id="rsvp" class="py-32 px-6 border-t border-[rgba(0,0,0,0.05)]">
         <div class="max-w-xl mx-auto text-center scroll-trigger">
+          <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-6 block" data-i18n="joinUs">The Pleasure of Your Company</span>
           <h2 class="font-serif text-5xl md:text-6xl text-main italic mb-12" data-i18n="kindredSpirits">RSVP</h2>
           
           <form id="rsvpForm" class="space-y-12 text-left">
@@ -597,6 +581,12 @@
               <textarea name="otherGuests" class="input-line resize-none" rows="2" placeholder="List names here..."></textarea>
             </div>
 
+            <!-- Merged Guestbook Message -->
+            <div class="group">
+              <label class="block font-sans text-[0.6rem] tracking-[0.2em] uppercase text-muted2 mb-2" data-i18n="guestMsgLabel">Leave a note (Guestbook)</label>
+              <textarea name="message" class="input-line resize-none" rows="3" placeholder="Write a message for the couple..." data-i18n-placeholder="guestMsgPlaceholder"></textarea>
+            </div>
+
             <div class="flex flex-col sm:flex-row justify-center gap-8 pt-6">
               <label class="flex items-center gap-3 cursor-pointer opacity-70 hover:opacity-100 transition">
                 <input type="radio" name="attendance" value="Accept" class="accent-[#a89f91] w-4 h-4" required>
@@ -615,6 +605,12 @@
             </div>
             <p id="formStatus" class="text-center font-serif text-xl mt-6 opacity-0 transition-opacity text-accent"></p>
           </form>
+
+          <!-- Guest Wall (Moved below button) -->
+          <div class="mt-20 text-left border-t border-[rgba(0,0,0,0.05)] pt-12">
+            <p class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-8 text-center" data-i18n="guestRecent">Recent Notes</p>
+            <div id="guestbookList" class="space-y-8 max-w-lg mx-auto"></div>
+          </div>
         </div>
       </section>
 
@@ -635,6 +631,7 @@
 
   <script>
     // --- CONFIG ---
+    // Paste your deployed Apps Script URL here
     const GOOGLE_SCRIPT_URL = "INSERT_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"; 
     const WEDDING_DATE = new Date("August 8, 2026 16:00:00").getTime();
 
@@ -759,6 +756,7 @@
           messageTitle: "We invite you to share in our joy.",
           messageBody: "We are delighted to invite you to celebrate our marriage. This website serves as your formal invitation. It would mean the world to us to have you by our side as we start this new chapter together. Please join us in Poland on August 8th, 2026.",
           galleryLabel: "Moments", galleryTitle: "A glimpse of us",
+          galleryBody: "Love is not just looking at each other, it's looking in the same direction. Here are a few moments from our journey so far.",
           whenTitle: "The When", whenDate: "August 08, 2026", whenTime: "Ceremony at 4:00 PM",
           whereTitle: "The Where", venueTitle: "The Venue", venueName: "Mazurski Raj", venueBlurb: "A stunning retreat in the heart of Masuria. Surrounded by forest and lake, it is the perfect place to celebrate nature and love.",
           venueSiteBtn: "Official Website", venueDirectionsBtn: "Get Directions",
@@ -767,36 +765,38 @@
           stayTitle: "Waking Up", stayBody: "We have reserved Mazurski Raj for our guests. There is nothing quite like waking up to the sound of the lake. We encourage you to book your room here to stay close to the celebration.",
           exploreTitle: "To Explore", exploreBody: "This is the 'Land of a Thousand Lakes'. If you have extra time, we highly recommend renting a kayak on the Krutynia River—it's magical. Or simply take a walk in the Piska Forest.",
           countTitle: "Until we say \"I do\"",
-          guestLabel: "Guestbook", guestTitle: "Leave a note", guestNamePlaceholder: "Your Name", guestFromPlaceholder: "Where are you from?", guestMsgPlaceholder: "Write a message...", guestSign: "Sign Guestbook",
+          guestMsgLabel: "Leave a note (Guestbook)", guestNamePlaceholder: "Your Name", guestMsgPlaceholder: "Write a message...",
           joinUs: "The Pleasure of Your Company", kindredSpirits: "RSVP",
           nameLabel: "Name (Primary)", emailLabel: "Email", songLabel: "Song Request",
           guestCountLabel: "Total Guests", otherGuestsLabel: "Names of Additional Guests",
           accept: "Joyfully Accept", decline: "Regretfully Decline", send: "Send Confirmation", thanks: "Thank you. We'll see you there.",
-          venueNav: "Venue", guestbookNav: "Guestbook", guideNav: "Guide", rsvp: "RSVP"
+          venueNav: "Venue", guestbookNav: "Guestbook", guideNav: "Guide", rsvp: "RSVP", guestRecent: "Recent Notes"
         },
         es: {
           saveTheDate: "Reserva la Fecha", heroDate: "08 de Agosto de 2026", heroRegion: "Masuria, Polonia",
           messageLabel: "La Celebración", messageTitle: "Los invitamos a compartir nuestra alegría.", messageBody: "Estamos felices de invitarlos a celebrar nuestro matrimonio. Este sitio web sirve como su invitación formal. Significaría mucho para nosotros tenerlos a nuestro lado al comenzar este nuevo capítulo juntos. Por favor, acompáñennos en Polonia el 8 de agosto de 2026.",
           galleryLabel: "Momentos", galleryTitle: "Un vistazo de nosotros",
+          galleryBody: "El amor no es solo mirarse el uno al otro, es mirar juntos en la misma dirección. Aquí tienen algunos momentos de nuestro camino.",
           whenTitle: "Cuándo", whenDate: "08 de Agosto de 2026", whenTime: "La ceremonia empieza a las 4:00 PM",
-          whereTitle: "Dónde", venueTitle: "El Lugar", venueName: "Mazurski Raj", venueBlurb: "Un refugio impresionante junto al lago en Ruciane-Nida, en el corazón de Masuria.",
+          whereTitle: "Dónde", venueTitle: "El Lugar", venueName: "Mazurski Raj", venueBlurb: "Un refugio impresionante junto al lago en Ruciane-Nida, en el corazón de Mazuria.",
           venueSiteBtn: "Sitio Web", venueDirectionsBtn: "Cómo llegar",
           guideLabel: "La Guía", guideHeadline: "Un fin de semana en Masuria",
           journeyTitle: "El Viaje", journeyBody: "Llegar a la región de los lagos es parte de la aventura. Recomendamos volar a Varsovia (WAW), alquilar un carro y disfrutar de las 3.5h de camino. Olsztyn (SZY) está a solo 1h.",
           stayTitle: "Despertar", stayBody: "Nos alojamos en Mazurski Raj. No hay nada como despertar con el sonido del lago. Los animamos a reservar aquí para estar cerca.",
           exploreTitle: "Explorar", exploreBody: "Esta es la 'Tierra de los Mil Lagos'. Si tienen tiempo, alquilen un kayak en el río Krutynia, es mágico. O den un paseo por el bosque de Piska.",
           countTitle: "Hasta el \"sí, quiero\"",
-          guestLabel: "Libro de Visitas", guestTitle: "Deja una nota", guestNamePlaceholder: "Tu Nombre", guestFromPlaceholder: "¿De dónde eres?", guestMsgPlaceholder: "Escribe un mensaje...", guestSign: "Firmar",
+          guestMsgLabel: "Deja una nota (Libro de Visitas)", guestNamePlaceholder: "Tu Nombre", guestMsgPlaceholder: "Escribe un mensaje...",
           joinUs: "El Placer de su Compañía", kindredSpirits: "RSVP",
           nameLabel: "Nombre (Principal)", emailLabel: "Correo Electrónico", songLabel: "Canción",
           guestCountLabel: "Nº Invitados", otherGuestsLabel: "Nombres Adicionales",
           accept: "Acepto con Alegría", decline: "Lamentablemente No", send: "Confirmar Asistencia", thanks: "Gracias. Nos vemos allá.",
-          venueNav: "Lugar", guestbookNav: "Libro", guideNav: "Guía", rsvp: "RSVP"
+          venueNav: "Lugar", guestbookNav: "Libro", guideNav: "Guía", rsvp: "RSVP", guestRecent: "Notas Recientes"
         },
         pl: {
           saveTheDate: "Zarezerwuj Datę", heroDate: "8 Sierpnia 2026", heroRegion: "Mazury, Polska",
           messageLabel: "Uroczystość", messageTitle: "Zapraszamy do wspólnego świętowania.", messageBody: "Z radością zapraszamy Was na nasz ślub. Ta strona służy jako oficjalne zaproszenie. Wasza obecność będzie dla nas zaszczytem. Dołączcie do nas 8 sierpnia 2026.",
           galleryLabel: "Chwile", galleryTitle: "Nasze momenty",
+          galleryBody: "Miłość to nie tylko patrzenie na siebie nawzajem, to patrzenie w tym samym kierunku. Oto kilka chwil z naszej wspólnej podróży.",
           whenTitle: "Kiedy", whenDate: "8 Sierpnia 2026", whenTime: "Ceremonia o 16:00",
           whereTitle: "Gdzie", venueTitle: "Miejsce", venueName: "Mazurski Raj", venueBlurb: "Zachwycające miejsce nad jeziorem Bełdany, w sercu Mazur.",
           venueSiteBtn: "Strona WWW", venueDirectionsBtn: "Dojazd",
@@ -805,12 +805,12 @@
           stayTitle: "Pobyt", stayBody: "Zatrzymujemy się w Mazurskim Raju. Nie ma to jak obudzić się przy dźwiękach jeziora. Zachęcamy do rezerwacji noclegu na miejscu.",
           exploreTitle: "Odkrywaj", exploreBody: "To Kraina Tysiąca Jezior. Jeśli macie czas, polecamy kajaki na Krutyni – to magiczne przeżycie. Lub po prostu spacer po Puszczy Piskiej.",
           countTitle: "Do naszego \"tak\"",
-          guestLabel: "Księga Gości", guestTitle: "Zostaw wpis", guestNamePlaceholder: "Twoje Imię", guestFromPlaceholder: "Skąd jesteś?", guestMsgPlaceholder: "Napisz wiadomość...", guestSign: "Podpisz",
+          guestMsgLabel: "Zostaw wpis (Księga Gości)", guestNamePlaceholder: "Twoje Imię", guestMsgPlaceholder: "Napisz wiadomość...",
           joinUs: "Zaszczyt Twojej Obecności", kindredSpirits: "RSVP",
           nameLabel: "Imię (Główne)", emailLabel: "Email", songLabel: "Piosenka",
           guestCountLabel: "Liczba Gości", otherGuestsLabel: "Imiona Osób Towarzyszących",
           accept: "Z Radością Przyjmuję", decline: "Z Żalem Odmawiam", send: "Potwierdź", thanks: "Dziękujemy. Do zobaczenia.",
-          venueNav: "Miejsce", guestbookNav: "Księga", guideNav: "Info", rsvp: "RSVP"
+          venueNav: "Miejsce", guestbookNav: "Księga", guideNav: "Info", rsvp: "RSVP", guestRecent: "Ostatnie Wpisy"
         }
       };
 
@@ -820,42 +820,24 @@
         document.querySelectorAll('[data-i18n-placeholder]').forEach(el => el.placeholder = t[el.dataset.i18nPlaceholder]);
       });
 
-      // 7. Guestbook
-      const guestForm = document.getElementById("guestbookForm");
-      const guestList = document.getElementById("guestList");
-      
+      // 7. Guestbook (Local Logic)
+      const guestList = document.getElementById("guestbookList");
       const loadGuestbook = () => {
         const entries = JSON.parse(localStorage.getItem('wedding_guestbook') || '[]');
         if (entries.length === 0) {
-          guestList.innerHTML = '<p class="text-xs uppercase tracking-widest opacity-40">Be the first to sign...</p>';
+          guestList.innerHTML = '<p class="text-xs uppercase tracking-widest opacity-40 text-center italic">Be the first to sign...</p>';
           return;
         }
         guestList.innerHTML = entries.map(e => `
-          <div class="border-b border-black/5 dark:border-white/5 pb-4">
-            <p class="font-serif text-xl italic mb-2">"${e.msg}"</p>
-            <p class="font-sans text-[10px] uppercase tracking-widest opacity-60">— ${e.name} ${e.from ? `from ${e.from}` : ''}</p>
+          <div class="border-b border-[rgba(0,0,0,0.05)] pb-4">
+            <p class="font-serif text-lg italic mb-2">"${e.msg}"</p>
+            <p class="font-sans text-[0.6rem] uppercase tracking-widest opacity-60">— ${e.name}</p>
           </div>
         `).join('');
       };
-      
-      guestForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const fd = new FormData(guestForm);
-        const entry = {
-          name: fd.get('guestName'),
-          from: fd.get('guestFrom'),
-          msg: fd.get('guestMessage'),
-          date: new Date().toISOString()
-        };
-        const entries = JSON.parse(localStorage.getItem('wedding_guestbook') || '[]');
-        entries.unshift(entry);
-        localStorage.setItem('wedding_guestbook', JSON.stringify(entries));
-        guestForm.reset();
-        loadGuestbook();
-      });
       loadGuestbook();
 
-      // 8. RSVP
+      // 8. RSVP Submission
       const form = document.getElementById('rsvpForm');
       const status = document.getElementById('formStatus');
       
@@ -867,6 +849,19 @@
         btn.disabled = true;
 
         const formData = new FormData(form);
+        
+        // Handle Guestbook Update Locally
+        if(formData.get("message")) {
+          const entry = {
+            name: formData.get('name'),
+            msg: formData.get('message'),
+            date: new Date().toISOString()
+          };
+          const entries = JSON.parse(localStorage.getItem('wedding_guestbook') || '[]');
+          entries.unshift(entry);
+          localStorage.setItem('wedding_guestbook', JSON.stringify(entries));
+          loadGuestbook();
+        }
         
         if (GOOGLE_SCRIPT_URL.includes("INSERT")) {
            setTimeout(() => {
