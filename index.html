@@ -5,557 +5,862 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Felipe & Olga | The Wedding</title>
 
-  <!-- Fonts -->
+  <!-- Typography: Cormorant Garamond (Elegant Serif) + Inter (Clean Sans) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
 
-  <!-- ✅ Loader fail-safe: NEVER wait for window.load -->
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    (function () {
-      function hideLoader() {
-        const loader = document.getElementById('loader');
-        if (!loader) return;
-        loader.style.transition = 'opacity 450ms ease';
-        loader.style.opacity = '0';
-        loader.style.pointerEvents = 'none';
-        setTimeout(() => loader.remove(), 480);
-      }
-      document.addEventListener('DOMContentLoaded', hideLoader);
-      setTimeout(hideLoader, 2200);
-      window.__hideLoader = hideLoader;
-    })();
-  </script>
-
-  <!-- Tailwind config BEFORE tailwind script -->
-  <script>
-    tailwind = window.tailwind || {};
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          colors: { 'felipe-gold': '#a89f91' },
+          colors: { 
+            'lux-gold': '#a89f91',
+            'lux-black': '#1a1c1b',
+            'lux-paper': '#f6f3ee'
+          },
           fontFamily: {
-            serif: ['"Playfair Display"', 'serif'],
-            sans: ['Manrope', 'system-ui', 'sans-serif'],
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['Inter', 'sans-serif'],
           }
         }
       }
     }
   </script>
 
-  <!-- Load CDN scripts without blocking rendering -->
-  <script defer src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- GSAP & Lenis (Smooth Scroll) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
 
   <style>
     :root{
       --bg:#f6f3ee;
-      --surface:rgba(255,255,255,0.65);
-      --surface-strong:rgba(255,255,255,0.82);
+      --surface:rgba(255,255,255,0.66);
+      --surface-strong:rgba(255,255,255,0.92);
       --border:rgba(15,17,16,0.14);
-      --text:#0f1110;
-      --muted:rgba(15,17,16,0.62);
-      --muted2:rgba(15,17,16,0.42);
+      --text:#1a1c1b;
+      --muted:rgba(15,17,16,0.75);
+      --muted2:rgba(15,17,16,0.55);
       --input-border:rgba(15,17,16,0.22);
-      --input-focus:rgba(15,17,16,0.75);
-      --vignette-alpha:0.18;
-      --grain-opacity:0.04;
+      --input-focus:rgba(15,17,16,0.78);
+      --vignette-alpha:0.12;
 
-      /* ✅ HERO: use the original first image in BOTH modes */
-      --hero-bg: url("https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2669&auto=format&fit=crop");
+      /* HERO */
+      --hero-filter: brightness(1.05) contrast(1.02);
+      --hero-overlay-top: rgba(0,0,0,0.4);
+      --hero-overlay-mid: rgba(0,0,0,0.1);
+      --hero-overlay-bot: rgba(0,0,0,0.5);
 
-      /* Light mode: very subtle grading */
-      --hero-filter: brightness(1) saturate(0.95) contrast(1.02);
-      --hero-overlay-top: rgba(0,0,0,0.40);
-      --hero-overlay-mid: rgba(0,0,0,0.24);
-      --hero-overlay-bot: rgba(0,0,0,0.52);
-      --hero-gold-glow: rgba(168,159,145,0.18);
+      /* Fine paper sections */
+      --paper-bg: #f6f3ee;
+      --paper-opacity: 0.25;
+      --paper-blend: multiply;
+      --paper-ink: rgba(15,17,16,0.06);
+
+      /* Loader colors */
+      --env-face-1: #f9f7f2;
+      --env-face-2: #ebe6de;
+      --env-border: rgba(15,17,16,0.12);
+      --env-shadow: rgba(0,0,0,0.12);
+      --env-ink: #2a2c2b;
+      
+      /* Photo treatment */
+      --photo-filter: sepia(0.05) contrast(1.05) saturate(0.9);
+      --photo-opacity: 1; 
     }
 
     html.dark{
       --bg:#0f1110;
-      --surface:rgba(0,0,0,0.30);
-      --surface-strong:rgba(0,0,0,0.44);
+      --surface:rgba(0,0,0,0.32);
+      --surface-strong:rgba(20,20,20,0.95);
       --border:rgba(255,255,255,0.12);
       --text:#e8e6e1;
-      --muted:rgba(232,230,225,0.68);
-      --muted2:rgba(232,230,225,0.46);
+      --muted:rgba(232,230,225,0.72);
+      --muted2:rgba(232,230,225,0.50);
       --input-border:rgba(255,255,255,0.22);
-      --input-focus:rgba(232,230,225,0.90);
-      --vignette-alpha:0.60;
-      --grain-opacity:0.05;
-
-      /* ✅ Dark mode: make it feel like your first version (cinematic + darker) */
-      --hero-filter: brightness(0.55) saturate(0.75) contrast(1.10);
-      --hero-overlay-top: rgba(0,0,0,0.70);
-      --hero-overlay-mid: rgba(0,0,0,0.45);
-      --hero-overlay-bot: rgba(0,0,0,0.78);
-      --hero-gold-glow: rgba(168,159,145,0.20);
+      --input-focus:rgba(232,230,225,0.92);
+      --vignette-alpha:0.58;
+      --hero-overlay-top: rgba(0,0,0,0.78);
+      --hero-overlay-mid: rgba(0,0,0,0.44);
+      --hero-overlay-bot: rgba(0,0,0,0.84);
+      --paper-bg: #0f1110;
+      --paper-opacity: 0.10;
+      --paper-blend: soft-light;
+      --paper-ink: rgba(232,230,225,0.10);
+      --env-face-1: rgba(0,0,0,0.62);
+      --env-face-2: rgba(0,0,0,0.40);
+      --env-border: rgba(255,255,255,0.12);
+      --env-shadow: rgba(0,0,0,0.42);
+      --env-ink: rgba(255,255,255,0.92);
+      --photo-filter: grayscale(0.2) brightness(0.8) contrast(1.1) saturate(0.8);
+      --photo-opacity: 0.85;
     }
 
     html { scroll-behavior:smooth; }
     body{ margin:0; background:var(--bg); color:var(--text); overflow-x:hidden; }
     ::selection{ background:#a89f91; color:#0f1110; }
 
-    .parallax-bg{
-      background-image: var(--hero-bg);
-      background-attachment:fixed;
-      background-position:center;
-      background-repeat:no-repeat;
-      background-size:cover;
-      filter: var(--hero-filter);
-      will-change: transform, opacity, filter;
+    /* Navbar */
+    #navbar { transition: background-color 0.6s ease, padding 0.6s ease; }
+    #navbar.scrolled { 
+      background: rgba(255,255,255,0.8); 
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding-top: 1rem;
+      padding-bottom: 1rem;
     }
-    @media (max-width: 768px){ .parallax-bg{ background-attachment:scroll; } }
-
-    .grain-overlay{
-      position:fixed; inset:0; pointer-events:none; z-index:40;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
-      opacity:var(--grain-opacity);
+    html.dark #navbar.scrolled { background: rgba(15,15,15,0.8); }
+    #navbar.scrolled .nav-text { color: var(--text) !important; }
+    
+    #navBrand { 
+      opacity: 0; transform: translateY(-10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
+    #navbar.scrolled #navBrand { opacity: 1; transform: translateY(0); }
 
+    .text-main{ color: var(--text); }
+    .text-muted{ color: var(--muted); }
+    .text-muted2{ color: var(--muted2); }
+    .text-accent{ color: #a89f91; }
+
+    /* Vignette */
     .vignette::before{
-      content:""; position:fixed; inset:0; pointer-events:none; z-index:30;
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:50;
       background:radial-gradient(circle at center, transparent 42%, rgba(0,0,0,var(--vignette-alpha)) 100%);
     }
 
-    /* Navbar controls: consistent height + spacing */
-    .pill{ border:1px solid var(--border); background:var(--surface); backdrop-filter: blur(12px); }
-    .control{
-      height: 40px;
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      backdrop-filter: blur(12px);
-      border-radius: 9999px;
-      padding: 0 12px;
-      color: var(--text);
-      transition: opacity 180ms ease;
-      white-space: nowrap;
+    /* HERO */
+    .parallax-bg{
+      will-change: transform;
     }
-    .control:hover{ opacity: 0.92; }
+    .hero-sheen{
+      position:absolute; inset:-30%; z-index:12; pointer-events:none;
+      opacity: 0.08;
+      background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.00) 35%, rgba(255,255,255,0.14) 45%, rgba(255,255,255,0.00) 55%, transparent 100%);
+      transform: translateX(-30%) rotate(0.001deg);
+      animation: sheen 10.5s ease-in-out infinite;
+    }
+    @keyframes sheen{
+      0%   { transform: translateX(-40%) translateY(0) rotate(0.001deg); }
+      50%  { transform: translateX(10%)  translateY(-2%) rotate(0.001deg); }
+      100% { transform: translateX(-40%) translateY(0) rotate(0.001deg); }
+    }
 
-    .select-wrap{
-      position: relative;
-      height: 40px;
-      display: inline-flex;
-      align-items: center;
+    /* Paper Texture */
+    .page-bg{ background: var(--paper-bg); position: relative; }
+    .paper-texture::before{
+      content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
+      opacity: var(--paper-opacity); mix-blend-mode: var(--paper-blend);
+      background-image:
+        repeating-linear-gradient( 8deg, transparent 0 26px, var(--paper-ink) 27px 27px),
+        radial-gradient(circle at 12% 18%, var(--paper-ink) 0 1px, transparent 1.4px);
+      background-size: 180px 180px, 64px 64px;
     }
+    .content-layer{ position: relative; z-index: 2; }
+
+    /* Controls */
+    .control{
+      height: 36px; display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); background: var(--surface); backdrop-filter: blur(12px);
+      border-radius: 9999px; padding: 0 14px; color: var(--text);
+      transition: all 0.3s ease; white-space: nowrap; cursor: pointer;
+    }
+    .control:hover{ opacity: 0.8; transform: translateY(-1px); }
+
+    .select-wrap{ position: relative; height: 36px; display: inline-flex; align-items: center; }
     .select-wrap select{
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      height: 40px;
-      padding: 0 36px 0 12px;
-      border-radius: 9999px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      outline: none;
-      backdrop-filter: blur(12px);
+      appearance: none; height: 36px; padding: 0 32px 0 14px;
+      border-radius: 9999px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text);
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      outline: none; cursor: pointer;
     }
-    .select-wrap svg{
-      position:absolute;
-      right: 12px;
-      width: 14px;
-      height: 14px;
-      pointer-events: none;
-      opacity: 0.75;
-      color: var(--text);
-    }
+    .select-wrap svg{ position:absolute; right: 10px; width: 12px; height: 12px; pointer-events: none; color: var(--text); }
 
     .input-line{
       background:transparent; border:none; border-bottom:1px solid var(--input-border);
-      color:var(--text); padding:10px 0; width:100%;
-      transition:border-color .25s ease;
+      color:var(--text); padding:12px 0; width:100%;
+      font-family: "Cormorant Garamond", serif; font-size: 1.5rem;
+      transition: border-color .25s ease; border-radius: 0;
     }
     .input-line:focus{ outline:none; border-bottom:1px solid var(--input-focus); }
+    .input-line::placeholder { 
+      font-family: 'Inter', sans-serif; font-size: 0.75rem; 
+      text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.5; 
+    }
 
-    #loader{
-      position:fixed; inset:0; z-index:100;
-      background:var(--bg);
-      display:flex; align-items:center; justify-content:center;
-      opacity:1;
+    .hairline{
+      height: 1px; width: 80px; margin: 24px auto 0;
+      background: linear-gradient(90deg, transparent, #a89f91, transparent);
+      opacity: 0.6;
+    }
+
+    /* Photo Frames */
+    .photo-frame{
+      position: relative; overflow: hidden;
+      background: var(--surface);
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+    }
+    .photo-frame img{
+      width: 100%; height: 100%; display: block; object-fit: cover;
+      filter: var(--photo-filter); opacity: var(--photo-opacity);
+      transition: transform 1.5s ease, opacity 0.5s ease;
+    }
+    .photo-frame:hover img{ transform: scale(1.04); }
+    
+    /* Parallax */
+    .parallax-wrap {
+      position: relative; width: 100%; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .parallax-media {
+      position: absolute; left: 0; width: 100%; object-fit: cover;
+      filter: var(--photo-filter); opacity: var(--photo-opacity);
+      will-change: transform;
+    }
+
+    /* VENUE FULL WIDTH */
+    .venue-section {
+      position: relative;
+      width: 100%;
+      padding-bottom: 6rem;
+    }
+    .venue-img-container {
+      position: relative;
+      width: 100%;
+      height: 80vh; /* Full screen impact */
+      overflow: hidden;
+    }
+    .venue-bg-img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.95) sepia(0.05) contrast(1.05);
+      transform: scale(1.1); will-change: transform;
+    }
+    
+    /* Overlapping Card */
+    .glass-card-overlap {
+      position: relative;
+      margin-top: -120px; /* Overlap effect */
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
+      border-radius: 2px;
+    }
+    html.dark .glass-card-overlap {
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Delicate SVG Icons */
+    .guide-icon {
+      width: 48px; height: 48px;
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
+      color: var(--text-accent);
+      stroke-width: 0.6; /* Thinner lines */
+    }
+
+    /* Loader */
+    #loader{ position: fixed; inset: 0; z-index: 100; background: var(--bg); overflow: hidden; }
+    .envelope{
+      position:absolute; inset: 0;
+      background: linear-gradient(to bottom, var(--env-face-1), var(--env-face-2));
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mono .fo{
+      font-family: "Cormorant Garamond", serif; font-size: 3rem; letter-spacing: 0.1em; color: var(--env-ink);
+    }
+
+    @media (max-width: 768px){ 
+      .parallax-bg{ background-attachment:scroll; }
+      .venue-img-container { height: 50vh; }
+      .glass-card-overlap { margin-top: -60px; width: 92%; margin-left: auto; margin-right: auto; }
     }
   </style>
 </head>
 
-<body class="font-sans antialiased vignette">
-  <div class="grain-overlay"></div>
-
+<body class="font-sans antialiased vignette is-loading">
+  
   <!-- Loader -->
   <div id="loader">
-    <div class="text-center">
-      <h1 class="font-serif text-3xl tracking-[0.22em] uppercase" style="color:#a89f91;">
-        F &amp; O
-      </h1>
+    <div class="envelope">
+      <div class="mono" id="mono">
+        <div class="fo italic">F &amp; O</div>
+      </div>
     </div>
   </div>
 
-  <!-- Navbar -->
-  <nav class="fixed w-full z-50 top-0 left-0 px-5 md:px-10 pt-5 md:pt-8" id="navbar">
-    <div class="mx-auto max-w-6xl flex items-center justify-between gap-3 px-4 py-3 rounded-full pill">
-      <div class="text-xs tracking-[0.2em] uppercase" style="color:var(--text)">
-        <span data-i18n="est">Est.</span> 2026
-      </div>
-
-      <div class="flex items-center gap-2 md:gap-3">
-        <!-- Language -->
-        <div class="select-wrap" aria-label="Language switcher">
-          <select id="langSelect">
-            <option value="en">EN</option>
-            <option value="es">ES</option>
-            <option value="pl">PL</option>
-          </select>
-          <!-- chevron -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
-          </svg>
+  <div id="app" class="opacity-0 transition-opacity duration-1000">
+    
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 top-0 left-0 px-4 md:px-8 pt-4 md:pt-6" id="navbar">
+      <div class="mx-auto max-w-7xl flex items-center justify-between">
+        <div class="font-serif italic text-xl md:text-2xl nav-text text-white" id="navBrand">
+          Felipe &amp; Olga
         </div>
 
-        <!-- Dark/Light toggle (icons, no emoji) -->
-        <button id="themeToggle" type="button" class="control" aria-label="Toggle theme" title="Toggle theme">
-          <!-- Sun -->
-          <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2"></path><path d="M12 20v2"></path>
-            <path d="M4.93 4.93l1.41 1.41"></path><path d="M17.66 17.66l1.41 1.41"></path>
-            <path d="M2 12h2"></path><path d="M20 12h2"></path>
-            <path d="M4.93 19.07l1.41-1.41"></path><path d="M17.66 6.34l1.41-1.41"></path>
-          </svg>
-          <!-- Moon -->
-          <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-
-        <!-- RSVP -->
-        <button type="button" class="control text-xs tracking-[0.2em] uppercase px-4" onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})">
-          <span data-i18n="rsvp">RSVP</span>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
-    <div class="absolute inset-0 z-0 opacity-85 scale-105 parallax-bg" id="hero-image"></div>
-
-    <!-- Overlays (now theme-controlled via CSS vars) -->
-    <div class="absolute inset-0 z-10"
-         style="background: linear-gradient(to bottom, var(--hero-overlay-top), var(--hero-overlay-mid), var(--hero-overlay-bot));">
-    </div>
-    <div class="absolute inset-0 z-10"
-         style="background: radial-gradient(circle at top, var(--hero-gold-glow), transparent 60%);">
-    </div>
-
-    <div class="relative z-20 w-full px-6">
-      <div class="mx-auto max-w-3xl text-center">
-        <div class="reveal-text inline-block rounded-2xl px-8 py-10 md:px-12 md:py-12"
-             style="border:1px solid var(--border); background:var(--surface); backdrop-filter: blur(14px);">
-          <p class="font-sans text-[0.65rem] md:text-xs tracking-[0.32em] uppercase" style="color:#a89f91" data-i18n="saveTheDate">
-            Save the date
-          </p>
-
-          <h1 class="mt-7 font-serif text-5xl md:text-7xl leading-none tracking-[0.01em]" style="color:var(--text)">
-            Felipe <span class="italic" style="color:rgba(168,159,145,0.9)">&amp;</span> Olga
-          </h1>
-
-          <div class="mt-7 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 font-sans text-[0.65rem] md:text-[0.75rem] tracking-[0.26em] uppercase"
-               style="color:var(--muted)">
-            <span data-i18n="heroDate">08 August 2026</span>
-            <span class="hidden md:inline w-10 h-px bg-gradient-to-r from-transparent via-[#a89f91]/80 to-transparent"></span>
-            <span data-i18n="heroCountry">Poland</span>
+        <div class="flex items-center gap-2 md:gap-4">
+          <div class="hidden md:flex gap-2">
+            <button class="control" onclick="document.getElementById('venue').scrollIntoView({behavior:'smooth'})">
+              <span class="text-[10px] tracking-widest uppercase" data-i18n="venueNav">Venue</span>
+            </button>
+            <button class="control" onclick="document.getElementById('travel').scrollIntoView({behavior:'smooth'})">
+              <span class="text-[10px] tracking-widest uppercase" data-i18n="guideNav">Guide</span>
+            </button>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Scroll Indicator -->
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
-      <div class="flex flex-col items-center gap-3" style="color:var(--muted)">
-        <span class="font-sans text-[0.6rem] tracking-[0.35em] uppercase" data-i18n="scroll">Scroll</span>
-        <div class="w-[1px] h-12 bg-gradient-to-b from-[#a89f91]/80 to-transparent animate-pulse"></div>
-      </div>
-    </div>
-  </section>
+          <div class="select-wrap">
+            <select id="langSelect">
+              <option value="en">EN</option>
+              <option value="es">ES</option>
+              <option value="pl">PL</option>
+            </select>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+          </div>
 
-  <!-- Quote -->
-  <section class="relative py-32 px-6 flex flex-col items-center justify-center text-center" style="background:var(--bg)">
-    <div class="max-w-2xl mx-auto scroll-trigger">
-      <h2 class="font-serif text-3xl md:text-5xl leading-tight mb-8" style="color:var(--text)" data-i18n="quote">
-        "We loved with a love that was more than love."
-      </h2>
-      <p class="font-sans text-[0.7rem] tracking-[0.25em] uppercase" style="color:#a89f91" data-i18n="quoteAuthor">
-        — Edgar Allan Poe
-      </p>
-      <div class="w-px h-24 bg-gradient-to-b from-[#a89f91] to-transparent mx-auto mt-12"></div>
-    </div>
-  </section>
+          <button id="themeToggle" class="control w-10 px-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          </button>
 
-  <!-- Details -->
-  <section class="relative min-h-screen flex flex-col md:flex-row" style="background:var(--bg)">
-    <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative overflow-hidden">
-      <div class="absolute inset-0 bg-cover bg-center transition-transform duration-[1400ms] hover:scale-105"
-           style="background-image:url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2670&auto=format&fit=crop');"></div>
-      <div class="absolute inset-0 bg-black/20"></div>
-    </div>
-
-    <div class="w-full md:w-1/2 flex flex-col justify-center p-12 md:p-24"
-         style="background:var(--surface-strong); border-left:1px solid var(--border);">
-      <div class="scroll-trigger space-y-12">
-        <div>
-          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-4" style="color:#a89f91" data-i18n="whenTitle">The When</h3>
-          <p class="font-serif text-3xl md:text-4xl mb-2" style="color:var(--text)" data-i18n="whenDate">August 8th, 2026</p>
-          <p class="font-sans text-xs font-light" style="color:var(--muted)" data-i18n="whenTime">Ceremony begins at 4:00 PM</p>
-        </div>
-
-        <div>
-          <h3 class="font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-4" style="color:#a89f91" data-i18n="whereTitle">The Where</h3>
-          <p class="font-serif text-3xl md:text-4xl mb-2" style="color:var(--text)" data-i18n="whereCountry">Poland</p>
-          <p class="font-sans text-sm font-light" style="color:var(--muted)" data-i18n="whereVenue">City &amp; venue to be confirmed.</p>
-          <p class="font-sans text-[0.7rem] mt-2 italic" style="color:var(--muted2)" data-i18n="whereMore">
-            More details and formal invitations to follow.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- RSVP -->
-  <section id="rsvp" class="relative py-32 px-4 md:px-0 border-t" style="background:var(--bg); border-color:var(--border)">
-    <div class="max-w-xl mx-auto text-center scroll-trigger">
-      <span class="font-sans text-[0.7rem] tracking-[0.3em] uppercase mb-4 block" style="color:#a89f91" data-i18n="joinUs">Join Us</span>
-      <h2 class="font-serif text-5xl md:text-6xl mb-12" style="color:var(--text)" data-i18n="kindredSpirits">Kindred Spirits</h2>
-
-      <form id="rsvpForm" class="space-y-12 text-left">
-        <div class="group">
-          <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-2" style="color:var(--muted2)">
-            <span data-i18n="nameLabel">Your Name</span>
-          </label>
-          <input type="text" required class="input-line font-serif text-2xl" data-i18n-placeholder="namePlaceholder" placeholder="Enter your full name" />
-        </div>
-
-        <div class="group">
-          <label class="block font-sans text-[0.7rem] tracking-[0.25em] uppercase mb-2" style="color:var(--muted2)">
-            <span data-i18n="emailLabel">Email Address</span>
-          </label>
-          <input type="email" required class="input-line font-serif text-2xl" data-i18n-placeholder="emailPlaceholder" placeholder="Where can we reach you?" />
-        </div>
-
-        <div class="flex flex-col sm:flex-row gap-6 sm:gap-8 justify-center pt-8">
-          <label class="flex items-center gap-3 cursor-pointer group">
-            <input type="radio" name="attendance" value="yes" class="peer sr-only" required>
-            <span class="w-4 h-4 border rounded-full peer-checked:bg-[#a89f91] transition-all" style="border-color:#a89f91"></span>
-            <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase transition-colors" style="color:var(--muted)">
-              <span data-i18n="accept">Joyfully Accept</span>
-            </span>
-          </label>
-
-          <label class="flex items-center gap-3 cursor-pointer group">
-            <input type="radio" name="attendance" value="no" class="peer sr-only">
-            <span class="w-4 h-4 border rounded-full peer-checked:bg-[#a89f91] transition-all" style="border-color:#a89f91"></span>
-            <span class="font-sans text-[0.7rem] tracking-[0.25em] uppercase transition-colors" style="color:var(--muted)">
-              <span data-i18n="decline">Regretfully Decline</span>
-            </span>
-          </label>
-        </div>
-
-        <div class="text-center pt-12">
-          <button type="submit" class="font-serif italic text-xl md:text-2xl transition-colors duration-500 relative group" style="color:var(--text)">
-            <span data-i18n="send">Send Confirmation</span>
-            <span class="absolute -bottom-2 left-0 w-0 h-px transition-all duration-500 group-hover:w-full" style="background:#a89f91"></span>
+          <button class="control bg-[#a89f91] border-[#a89f91] text-white hover:bg-[#8f877a] hover:border-[#8f877a]" 
+                  onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})">
+            <span class="text-[10px] tracking-widest uppercase" data-i18n="rsvp">RSVP</span>
           </button>
         </div>
-      </form>
-
-      <div id="successMessage" class="hidden pt-12">
-        <p class="font-serif text-3xl italic" style="color:#a89f91" data-i18n="thanks">Thank you, we&apos;ll see you in Poland.</p>
       </div>
-    </div>
-  </section>
+    </nav>
 
-  <footer class="py-12 text-center border-t" style="border-color:var(--border); background:var(--bg)">
-    <p class="font-sans text-[10px] tracking-[0.3em] uppercase" style="color:var(--muted2)">
-      Felipe &amp; Olga &copy; 2026
-    </p>
-  </footer>
+    <!-- Hero -->
+    <section class="relative h-[100svh] w-full overflow-hidden flex items-center justify-center">
+      <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2669&auto=format&fit=crop" 
+             class="w-full h-full object-cover parallax-bg" 
+             id="hero-image" loading="eager" alt="Hero">
+      </div>
+      <div class="absolute inset-0 z-10" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1), rgba(0,0,0,0.4));"></div>
+      
+      <div class="relative z-20 text-center text-white px-6">
+        <p class="font-sans text-[0.6rem] tracking-[0.4em] uppercase opacity-90 mb-6" data-i18n="saveTheDate">Save the date</p>
+        <h1 class="font-serif text-5xl md:text-8xl leading-none tracking-tight mb-6">
+          Felipe <span class="italic font-light opacity-80">&amp;</span> Olga
+        </h1>
+        <p class="font-sans text-xs tracking-[0.3em] uppercase opacity-80">
+          <span data-i18n="heroDate">August 08, 2026</span>
+          <span class="mx-3 opacity-50">|</span>
+          <span data-i18n="heroRegion">Mazury, Poland</span>
+        </p>
+      </div>
+      
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce duration-[2s]">
+        <div class="w-[1px] h-12 bg-white/50"></div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="page-bg paper-texture relative z-10">
+      
+      <!-- Invitation Text -->
+      <section class="py-32 px-6">
+        <div class="max-w-2xl mx-auto text-center scroll-trigger">
+          <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-6 block" data-i18n="messageLabel">The Celebration</span>
+          <h2 class="font-serif text-3xl md:text-5xl leading-tight text-main mb-8" data-i18n="messageTitle">
+            We invite you to share in our joy.
+          </h2>
+          <div class="hairline"></div>
+          <p class="mt-8 font-serif text-xl md:text-2xl leading-relaxed text-muted" data-i18n="messageBody">
+            We are delighted to invite you to celebrate our marriage. This website serves as your formal invitation. It would mean the world to us to have you by our side as we start this new chapter together. Please join us in Poland on August 08, 2026.
+          </p>
+        </div>
+      </section>
+
+      <!-- PHOTO 01 (HANDS) -->
+      <div class="parallax-wrap h-[60vh] md:h-[90vh]">
+        <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/01.png" 
+             alt="Couple Hands" 
+             class="parallax-media" 
+             loading="lazy" 
+             style="top: 0; object-position: top center; height: 115%;" />
+      </div>
+
+      <!-- Gallery -->
+      <section class="py-32 px-6">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-24 scroll-trigger">
+            <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent" data-i18n="galleryLabel">Moments</span>
+          </div>
+          <div class="flex flex-col md:flex-row gap-16 md:gap-32 items-center">
+            <div class="w-full md:w-5/12 scroll-trigger">
+              <div class="photo-frame aspect-[3/4]">
+                <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/02.png" alt="Portrait" loading="lazy" />
+              </div>
+            </div>
+            <div class="w-full md:w-6/12 flex flex-col gap-12 md:mt-24 scroll-trigger">
+              <div class="text-center md:text-left">
+                <h3 class="font-serif text-3xl md:text-4xl text-main italic mb-4" data-i18n="galleryTitle">A glimpse of us</h3>
+                <p class="font-sans text-sm text-muted leading-loose">
+                  Love is not just looking at each other, it's looking in the same direction. Here are a few moments from our journey so far.
+                </p>
+              </div>
+              <div class="photo-frame aspect-[4/3] shadow-xl md:-ml-12 z-10 bg-white p-2">
+                <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/03.png" alt="Landscape" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHOTO 04 -->
+      <div class="parallax-wrap h-[40vh] md:h-[60vh]">
+        <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/04.jpg" alt="Wide View" class="parallax-media" loading="lazy" />
+      </div>
+
+      <!-- VENUE (Updated Layout & Title) -->
+      <section id="venue" class="venue-section">
+        
+        <!-- Large Full-Width Image Container -->
+        <div class="venue-img-container scroll-trigger">
+          <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/hotel.png" 
+               alt="Mazurski Raj Aerial View" class="venue-bg-img" loading="lazy" id="venue-bg">
+        </div>
+
+        <!-- Content Card (Overlapping) -->
+        <div class="max-w-6xl mx-auto px-6">
+          <div class="glass-card-overlap max-w-2xl mx-auto p-10 md:p-14 text-center scroll-trigger delay-100">
+            
+            <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-4 block" data-i18n="venueTitle">The Venue</span>
+            <h3 class="font-serif text-4xl md:text-5xl text-main mb-6" data-i18n="venueName">Mazurski Raj</h3>
+            <p class="font-sans text-sm text-muted leading-relaxed mb-8" data-i18n="venueBlurb">
+              A stunning retreat in the heart of Masuria. Surrounded by forest and lake, it is the perfect place to celebrate nature and love.
+            </p>
+            
+            <div class="space-y-6 mb-8 border-t border-b border-gray-400/30 py-6">
+              <div class="flex justify-between items-center">
+                <span class="font-sans text-[0.65rem] uppercase tracking-widest text-muted2">Ceremony</span>
+                <span class="font-serif text-xl text-main">4:00 PM</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="font-sans text-[0.65rem] uppercase tracking-widest text-muted2">Dinner</span>
+                <span class="font-serif text-xl text-main">6:00 PM</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="font-sans text-[0.65rem] uppercase tracking-widest text-muted2">Party</span>
+                <span class="font-serif text-xl text-main">9:00 PM</span>
+              </div>
+            </div>
+
+            <div class="flex justify-center gap-6">
+              <a href="https://www.mazurskiraj.pl/" target="_blank" class="border-b border-[#a89f91] text-[10px] uppercase tracking-widest pb-1 hover:text-accent transition-colors" data-i18n="venueSiteBtn">Official Website</a>
+              <a href="https://goo.gl/maps/XYZ" target="_blank" class="border-b border-[#a89f91] text-[10px] uppercase tracking-widest pb-1 hover:text-accent transition-colors" data-i18n="venueDirectionsBtn">Directions</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- THE GUIDE (Delicate SVGs) -->
+      <section id="travel" class="py-32 px-6">
+        <div class="max-w-4xl mx-auto scroll-trigger">
+          <div class="text-center mb-24">
+            <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent" data-i18n="guideLabel">The Guide</span>
+            <h3 class="font-serif text-4xl mt-4 text-main" data-i18n="guideHeadline">A weekend in Mazury</h3>
+            <div class="hairline"></div>
+          </div>
+
+          <div class="space-y-24">
+            <!-- Journey -->
+            <div class="flex flex-col md:flex-row gap-10 items-start scroll-trigger">
+              <div class="md:w-1/3 flex flex-col items-center md:items-start">
+                <!-- Thinner Stroke SVG -->
+                <svg class="guide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h4 class="font-serif text-2xl text-main italic" data-i18n="journeyTitle">The Journey</h4>
+              </div>
+              <div class="md:w-2/3 text-center md:text-left">
+                <p class="font-sans text-sm text-muted leading-loose" data-i18n="journeyBody">
+                  Getting to the lake district is part of the adventure. We recommend flying into <strong>Warsaw (WAW)</strong>, renting a car, and enjoying the 3.5-hour scenic drive north. Alternatively, <strong>Olsztyn (SZY)</strong> is just an hour away. The roads wind through ancient forests—take your time.
+                </p>
+              </div>
+            </div>
+
+            <!-- Stay -->
+            <div class="flex flex-col md:flex-row gap-10 items-start scroll-trigger">
+              <div class="md:w-1/3 flex flex-col items-center md:items-start">
+                <svg class="guide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <h4 class="font-serif text-2xl text-main italic" data-i18n="stayTitle">Waking Up</h4>
+              </div>
+              <div class="md:w-2/3 text-center md:text-left">
+                <p class="font-sans text-sm text-muted leading-loose" data-i18n="stayBody">
+                  We have reserved <strong>Mazurski Raj</strong> for our guests. There is nothing quite like waking up to the sound of the lake. We encourage you to book your room here to stay close to the celebration and enjoy breakfast with a view.
+                </p>
+              </div>
+            </div>
+
+            <!-- Explore -->
+            <div class="flex flex-col md:flex-row gap-10 items-start scroll-trigger">
+              <div class="md:w-1/3 flex flex-col items-center md:items-start">
+                 <svg class="guide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10"/><path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z"/>
+                </svg>
+                <h4 class="font-serif text-2xl text-main italic" data-i18n="exploreTitle">To Explore</h4>
+              </div>
+              <div class="md:w-2/3 text-center md:text-left">
+                <p class="font-sans text-sm text-muted leading-loose" data-i18n="exploreBody">
+                  This is the "Land of a Thousand Lakes". If you have extra time, we highly recommend renting a kayak on the <strong>Krutynia River</strong>—it's magical. Or simply take a walk in the Piska Forest to breathe in the pine air.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COUNTDOWN -->
+      <section class="py-20 text-center border-t border-[rgba(0,0,0,0.05)] bg-[rgba(0,0,0,0.02)]">
+        <p class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-muted mb-8" data-i18n="countTitle">Until we say "I do"</p>
+        <div class="flex justify-center gap-8 md:gap-16 font-serif text-4xl md:text-5xl text-main">
+          <div><span id="cdDays">00</span><span class="block text-[10px] font-sans tracking-widest mt-2 text-muted2">DAYS</span></div>
+          <div><span id="cdHours">00</span><span class="block text-[10px] font-sans tracking-widest mt-2 text-muted2">HRS</span></div>
+        </div>
+      </section>
+
+      <!-- GUESTBOOK -->
+      <section id="guestbook" class="py-32 px-6">
+        <div class="max-w-3xl mx-auto text-center scroll-trigger">
+          <span class="font-sans text-[0.6rem] tracking-[0.3em] uppercase text-accent mb-4 block" data-i18n="guestLabel">Guestbook</span>
+          <h3 class="font-serif text-4xl mb-8 text-main" data-i18n="guestTitle">Leave a note</h3>
+          
+          <form id="guestbookForm" class="space-y-8 mt-12 text-left">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <input type="text" name="guestName" class="input-line text-lg" placeholder="Your Name" required data-i18n-placeholder="guestNamePlaceholder">
+              <input type="text" name="guestFrom" class="input-line text-lg" placeholder="Where are you from?" data-i18n-placeholder="guestFromPlaceholder">
+            </div>
+            <textarea name="guestMessage" class="input-line text-lg resize-none" rows="2" placeholder="Write a message..." required data-i18n-placeholder="guestMsgPlaceholder"></textarea>
+            <div class="text-center pt-6">
+              <button type="submit" class="control px-8 py-2 uppercase text-xs tracking-widest" data-i18n="guestSign">Sign Guestbook</button>
+            </div>
+          </form>
+
+          <div id="guestList" class="mt-16 space-y-6 text-left opacity-80"></div>
+        </div>
+      </section>
+
+      <!-- RSVP (With Groups) -->
+      <section id="rsvp" class="py-32 px-6 border-t border-[rgba(0,0,0,0.05)]">
+        <div class="max-w-xl mx-auto text-center scroll-trigger">
+          <h2 class="font-serif text-5xl md:text-6xl text-main italic mb-12" data-i18n="kindredSpirits">RSVP</h2>
+          
+          <form id="rsvpForm" class="space-y-12 text-left">
+            <div class="group">
+              <label class="block font-sans text-[0.6rem] tracking-[0.2em] uppercase text-muted2 mb-2" data-i18n="nameLabel">Name (Primary)</label>
+              <input type="text" name="name" class="input-line" required>
+            </div>
+            <div class="group">
+              <label class="block font-sans text-[0.6rem] tracking-[0.2em] uppercase text-muted2 mb-2" data-i18n="emailLabel">Email</label>
+              <input type="email" name="email" class="input-line" required>
+            </div>
+            
+            <!-- Group RSVP Fields -->
+            <div class="grid grid-cols-2 gap-6">
+              <div class="group">
+                <label class="block font-sans text-[0.6rem] tracking-[0.2em] uppercase text-muted2 mb-2" data-i18n="guestCountLabel">Total Guests</label>
+                <select name="guestCount" class="input-line bg-transparent cursor-pointer">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div class="group">
+                <label class="block font-sans text-[0.6rem] tracking-[0.2em] uppercase text-muted2 mb-2" data-i18n="songLabel">Song Request</label>
+                <input type="text" name="song" class="input-line">
+              </div>
+            </div>
+
+            <div class="group">
+              <label class="block font-sans text-[0.6rem] tracking-[0.2em] uppercase text-muted2 mb-2" data-i18n="otherGuestsLabel">Names of Additional Guests</label>
+              <textarea name="otherGuests" class="input-line resize-none" rows="2" placeholder="List names here..."></textarea>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-8 pt-6">
+              <label class="flex items-center gap-3 cursor-pointer opacity-70 hover:opacity-100 transition">
+                <input type="radio" name="attendance" value="Accept" class="accent-[#a89f91] w-4 h-4" required>
+                <span class="font-sans text-xs tracking-widest uppercase" data-i18n="accept">Joyfully Accept</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer opacity-70 hover:opacity-100 transition">
+                <input type="radio" name="attendance" value="Decline" class="accent-[#a89f91] w-4 h-4">
+                <span class="font-sans text-xs tracking-widest uppercase" data-i18n="decline">Regretfully Decline</span>
+              </label>
+            </div>
+
+            <div class="text-center pt-8">
+              <button type="submit" class="control px-10 py-3 uppercase text-xs tracking-widest hover:bg-[#a89f91] hover:text-white hover:border-[#a89f91]">
+                <span data-i18n="send">Send Confirmation</span>
+              </button>
+            </div>
+            <p id="formStatus" class="text-center font-serif text-xl mt-6 opacity-0 transition-opacity text-accent"></p>
+          </form>
+        </div>
+      </section>
+
+      <!-- Finale -->
+      <div class="parallax-wrap h-[50vh]">
+        <img src="https://camilo574.github.io/olga_felipe_wedding_v2/assets/01.png" alt="Finale" class="parallax-media" loading="lazy" style="top: -10%;" />
+        <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+          <span class="font-serif italic text-4xl text-white mix-blend-overlay tracking-widest">Thank You</span>
+        </div>
+      </div>
+
+      <footer class="py-12 text-center border-t border-[rgba(0,0,0,0.05)]">
+        <p class="font-sans text-[10px] tracking-[0.3em] uppercase text-muted2 opacity-50">Felipe &amp; Olga &copy; 2026</p>
+      </footer>
+
+    </main>
+  </div>
 
   <script>
+    // --- CONFIG ---
+    const GOOGLE_SCRIPT_URL = "INSERT_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"; 
+    const WEDDING_DATE = new Date("August 8, 2026 16:00:00").getTime();
+
     document.addEventListener('DOMContentLoaded', () => {
-      // THEME
-      const htmlEl = document.documentElement;
-      const toggle = document.getElementById('themeToggle');
-      const iconSun = document.getElementById('iconSun');
-      const iconMoon = document.getElementById('iconMoon');
+      
+      // 1. Loader
+      const mono = document.getElementById('mono');
+      const loader = document.getElementById('loader');
+      const app = document.getElementById('app');
 
-      function paintThemeIcon() {
-        // Show icon for the *other* mode (what you'll switch to)
-        const isDark = htmlEl.classList.contains('dark');
-        iconSun.style.display = isDark ? 'inline-block' : 'none'; // in dark: show sun (switch to light)
-        iconMoon.style.display = isDark ? 'none' : 'inline-block'; // in light: show moon (switch to dark)
-      }
+      const tl = gsap.timeline({
+        onComplete: () => {
+          loader.style.display = 'none';
+          app.classList.remove('opacity-0');
+        }
+      });
+      tl.to(mono, { opacity: 0, duration: 0.5, delay: 1 })
+        .to(loader, { opacity: 0, duration: 0.8 }, "-=0.2");
 
-      function applyTheme(theme) {
-        const isDark = theme === 'dark';
-        htmlEl.classList.toggle('dark', isDark);
-        localStorage.setItem('theme', theme);
-        paintThemeIcon();
-      }
-
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        applyTheme(savedTheme);
-      } else {
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        applyTheme(prefersDark ? 'dark' : 'light');
-      }
-
-      toggle.addEventListener('click', () => {
-        applyTheme(htmlEl.classList.contains('dark') ? 'light' : 'dark');
+      // 2. Navbar
+      const navbar = document.getElementById('navbar');
+      const brand = document.getElementById('navBrand');
+      
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+          brand.classList.remove('text-white');
+          brand.classList.add('text-main');
+          // Navbar controls tint
+          navbar.querySelectorAll('.nav-text').forEach(el => el.classList.remove('text-white'));
+        } else {
+          navbar.classList.remove('scrolled');
+          brand.classList.add('text-white');
+          brand.classList.remove('text-main');
+        }
       });
 
-      // LANGUAGE
+      // 3. Animations
+      gsap.registerPlugin(ScrollTrigger);
+
+      document.querySelectorAll(".scroll-trigger").forEach(el => {
+        gsap.fromTo(el, { y: 40, opacity: 0 }, {
+          y: 0, opacity: 1, duration: 1.2, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 85%" }
+        });
+      });
+
+      // Parallax
+      document.querySelectorAll(".parallax-wrap").forEach(wrap => {
+        const img = wrap.querySelector(".parallax-media");
+        if(img) {
+          // Special fix for Photo 01
+          if(img.src.includes("01.png") && !img.alt.includes("Finale")) {
+             gsap.to(img, {
+               y: "10%", ease: "none",
+               scrollTrigger: { trigger: wrap, start: "top top", end: "bottom top", scrub: true }
+             });
+          } else {
+             gsap.to(img, {
+               y: "20%", ease: "none",
+               scrollTrigger: { trigger: wrap, start: "top bottom", end: "bottom top", scrub: true }
+             });
+          }
+        }
+      });
+
+      // Venue BG Parallax
+      const venueBg = document.getElementById('venue-bg');
+      if(venueBg) {
+        gsap.to(venueBg, {
+          y: "10%", ease: "none",
+          scrollTrigger: { trigger: "#venue", start: "top bottom", end: "bottom top", scrub: true }
+        });
+      }
+
+      // 4. Countdown
+      setInterval(() => {
+        const now = new Date().getTime();
+        const distance = WEDDING_DATE - now;
+        if (distance > 0) {
+          document.getElementById("cdDays").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+          document.getElementById("cdHours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        }
+      }, 1000);
+
+      // 5. Theme Toggle
+      const htmlEl = document.documentElement;
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        htmlEl.classList.toggle('dark');
+        localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
+      });
+      if(localStorage.getItem('theme') === 'dark') htmlEl.classList.add('dark');
+
+      // 6. Translations
       const langSelect = document.getElementById('langSelect');
-      const translations = {
+      const translations = { 
         en: {
-          est: "Est.",
-          rsvp: "RSVP",
-          saveTheDate: "Save the date",
-          heroDate: "08 August 2026",
-          heroCountry: "Poland",
-          scroll: "Scroll",
-          quote: '"We loved with a love that was more than love."',
-          quoteAuthor: "— Edgar Allan Poe",
-          whenTitle: "The When",
-          whenDate: "August 8th, 2026",
-          whenTime: "Ceremony begins at 4:00 PM",
-          whereTitle: "The Where",
-          whereCountry: "Poland",
-          whereVenue: "City & venue to be confirmed.",
-          whereMore: "More details and formal invitations to follow.",
-          joinUs: "Join Us",
-          kindredSpirits: "Kindred Spirits",
-          nameLabel: "Your Name",
-          namePlaceholder: "Enter your full name",
-          emailLabel: "Email Address",
-          emailPlaceholder: "Where can we reach you?",
-          accept: "Joyfully Accept",
-          decline: "Regretfully Decline",
-          send: "Send Confirmation",
-          thanks: "Thank you, we'll see you in Poland."
+          saveTheDate: "Save the Date",
+          heroDate: "August 08, 2026", heroRegion: "Mazury, Poland",
+          messageLabel: "The Celebration",
+          messageTitle: "We invite you to share in our joy.",
+          messageBody: "We are delighted to invite you to celebrate our marriage. This website serves as your formal invitation. It would mean the world to us to have you by our side as we start this new chapter together. Please join us in Poland on August 8th, 2026.",
+          galleryLabel: "Moments", galleryTitle: "A glimpse of us",
+          whenTitle: "The When", whenDate: "August 08, 2026", whenTime: "Ceremony at 4:00 PM",
+          whereTitle: "The Where", venueTitle: "The Venue", venueName: "Mazurski Raj", venueBlurb: "A stunning retreat in the heart of Masuria. Surrounded by forest and lake, it is the perfect place to celebrate nature and love.",
+          venueSiteBtn: "Official Website", venueDirectionsBtn: "Get Directions",
+          guideLabel: "The Guide", guideHeadline: "A weekend in Mazury",
+          journeyTitle: "The Journey", journeyBody: "Getting to the lake district is part of the adventure. We recommend flying into Warsaw (WAW), renting a car, and enjoying the 3.5-hour scenic drive north. Alternatively, Olsztyn (SZY) is just an hour away.",
+          stayTitle: "Waking Up", stayBody: "We have reserved Mazurski Raj for our guests. There is nothing quite like waking up to the sound of the lake. We encourage you to book your room here to stay close to the celebration.",
+          exploreTitle: "To Explore", exploreBody: "This is the 'Land of a Thousand Lakes'. If you have extra time, we highly recommend renting a kayak on the Krutynia River—it's magical. Or simply take a walk in the Piska Forest.",
+          countTitle: "Until we say \"I do\"",
+          guestLabel: "Guestbook", guestTitle: "Leave a note", guestNamePlaceholder: "Your Name", guestFromPlaceholder: "Where are you from?", guestMsgPlaceholder: "Write a message...", guestSign: "Sign Guestbook",
+          joinUs: "The Pleasure of Your Company", kindredSpirits: "RSVP",
+          nameLabel: "Name (Primary)", emailLabel: "Email", songLabel: "Song Request",
+          guestCountLabel: "Total Guests", otherGuestsLabel: "Names of Additional Guests",
+          accept: "Joyfully Accept", decline: "Regretfully Decline", send: "Send Confirmation", thanks: "Thank you. We'll see you there.",
+          venueNav: "Venue", guestbookNav: "Guestbook", guideNav: "Guide", rsvp: "RSVP"
         },
         es: {
-          est: "Est.",
-          rsvp: "Confirmar",
-          saveTheDate: "Reserva la fecha",
-          heroDate: "08 de agosto de 2026",
-          heroCountry: "Polonia",
-          scroll: "Desliza",
-          quote: '"Amamos con un amor que era más que amor."',
-          quoteAuthor: "— Edgar Allan Poe",
-          whenTitle: "Cuándo",
-          whenDate: "8 de agosto de 2026",
-          whenTime: "La ceremonia empieza a las 4:00 PM",
-          whereTitle: "Dónde",
-          whereCountry: "Polonia",
-          whereVenue: "Ciudad y lugar por confirmar.",
-          whereMore: "Más detalles e invitaciones formales próximamente.",
-          joinUs: "Acompáñanos",
-          kindredSpirits: "Almas afines",
-          nameLabel: "Tu nombre",
-          namePlaceholder: "Escribe tu nombre completo",
-          emailLabel: "Correo electrónico",
-          emailPlaceholder: "¿A qué correo te escribimos?",
-          accept: "Acepto con alegría",
-          decline: "Con pena rechazo",
-          send: "Enviar confirmación",
-          thanks: "Gracias, nos vemos en Polonia."
+          saveTheDate: "Reserva la Fecha", heroDate: "08 de Agosto de 2026", heroRegion: "Mazuria, Polonia",
+          messageLabel: "La Celebración", messageTitle: "Os invitamos a compartir nuestra alegría.", messageBody: "Estamos encantados de invitaros a celebrar nuestro matrimonio. Esta web es vuestra invitación formal. Significaría mucho teneros a nuestro lado. Acompañadnos en Polonia el 8 de agosto de 2026.",
+          galleryLabel: "Momentos", galleryTitle: "Un vistazo de nosotros",
+          whenTitle: "Cuándo", whenDate: "08 Agosto 2026", whenTime: "Ceremonia a las 16:00",
+          whereTitle: "Dónde", venueTitle: "El Lugar", venueName: "Mazurski Raj", venueBlurb: "Un refugio impresionante junto al lago en Ruciane-Nida, en el corazón de Mazuria.",
+          venueSiteBtn: "Sitio Web", venueDirectionsBtn: "Cómo llegar",
+          guideLabel: "La Guía", guideHeadline: "Un finde en Mazuria",
+          journeyTitle: "El Viaje", journeyBody: "Llegar a la región de los lagos es parte de la aventura. Recomendamos volar a Varsovia (WAW), alquilar un coche y disfrutar de las 3.5h de camino. Olsztyn (SZY) está a solo 1h.",
+          stayTitle: "Despertar", stayBody: "Nos alojamos en Mazurski Raj. No hay nada como despertar con el sonido del lago. Os animamos a reservar aquí para estar cerca.",
+          exploreTitle: "Explorar", exploreBody: "Esta es la 'Tierra de los Mil Lagos'. Si tenéis tiempo, alquilad un kayak en el río Krutynia, es mágico. O dad un paseo por el bosque Piska.",
+          countTitle: "Hasta el \"sí, quiero\"",
+          guestLabel: "Libro de Visitas", guestTitle: "Deja una nota", guestNamePlaceholder: "Tu Nombre", guestFromPlaceholder: "¿De dónde eres?", guestMsgPlaceholder: "Escribe un mensaje...", guestSign: "Firmar",
+          joinUs: "El Placer de vuestra Compañía", kindredSpirits: "RSVP",
+          nameLabel: "Nombre (Principal)", emailLabel: "Email", songLabel: "Canción",
+          guestCountLabel: "Nº Invitados", otherGuestsLabel: "Nombres Adicionales",
+          accept: "Acepto con Alegría", decline: "Lamentablemente No", send: "Confirmar Asistencia", thanks: "Gracias. Nos vemos allí.",
+          venueNav: "Lugar", guestbookNav: "Libro", guideNav: "Guía", rsvp: "RSVP"
         },
         pl: {
-          est: "Est.",
-          rsvp: "Potwierdź",
-          saveTheDate: "Zarezerwuj datę",
-          heroDate: "8 sierpnia 2026",
-          heroCountry: "Polska",
-          scroll: "Przewiń",
-          quote: '"Kochaliśmy miłością, która była czymś więcej niż miłością."',
-          quoteAuthor: "— Edgar Allan Poe",
-          whenTitle: "Kiedy",
-          whenDate: "8 sierpnia 2026",
-          whenTime: "Ceremonia rozpoczyna się o 16:00",
-          whereTitle: "Gdzie",
-          whereCountry: "Polska",
-          whereVenue: "Miasto i miejsce wkrótce.",
-          whereMore: "Więcej szczegółów i oficjalne zaproszenia wkrótce.",
-          joinUs: "Dołącz do nas",
-          kindredSpirits: "Pokrewne dusze",
-          nameLabel: "Imię i nazwisko",
-          namePlaceholder: "Wpisz imię i nazwisko",
-          emailLabel: "Email",
-          emailPlaceholder: "Na jaki adres możemy napisać?",
-          accept: "Z radością przyjmuję",
-          decline: "Z żalem odmawiam",
-          send: "Wyślij potwierdzenie",
-          thanks: "Dziękujemy, do zobaczenia w Polsce."
+          saveTheDate: "Zarezerwuj Datę", heroDate: "8 Sierpnia 2026", heroRegion: "Mazury, Polska",
+          messageLabel: "Uroczystość", messageTitle: "Zapraszamy do wspólnego świętowania.", messageBody: "Z radością zapraszamy Was na nasz ślub. Ta strona służy jako oficjalne zaproszenie. Wasza obecność będzie dla nas zaszczytem. Dołączcie do nas 8 sierpnia 2026.",
+          galleryLabel: "Chwile", galleryTitle: "Nasze momenty",
+          whenTitle: "Kiedy", whenDate: "8 Sierpnia 2026", whenTime: "Ceremonia o 16:00",
+          whereTitle: "Gdzie", venueTitle: "Miejsce", venueName: "Mazurski Raj", venueBlurb: "Zachwycające miejsce nad jeziorem Bełdany, w sercu Mazur.",
+          venueSiteBtn: "Strona WWW", venueDirectionsBtn: "Dojazd",
+          guideLabel: "Przewodnik", guideHeadline: "Weekend na Mazurach",
+          journeyTitle: "Dojazd", journeyBody: "Podróż na Mazury to część przygody. Najłatwiej dojechać samochodem z Warszawy (ok. 3.5h) lub Olsztyna (1h). Drogi prowadzą przez malownicze lasy.",
+          stayTitle: "Pobyt", stayBody: "Zatrzymujemy się w Mazurskim Raju. Nie ma to jak obudzić się przy dźwiękach jeziora. Zachęcamy do rezerwacji noclegu na miejscu.",
+          exploreTitle: "Odkrywaj", exploreBody: "To Kraina Tysiąca Jezior. Jeśli macie czas, polecamy kajaki na Krutyni – to magiczne przeżycie. Lub po prostu spacer po Puszczy Piskiej.",
+          countTitle: "Do naszego \"tak\"",
+          guestLabel: "Księga Gości", guestTitle: "Zostaw wpis", guestNamePlaceholder: "Twoje Imię", guestFromPlaceholder: "Skąd jesteś?", guestMsgPlaceholder: "Napisz wiadomość...", guestSign: "Podpisz",
+          joinUs: "Zaszczyt Twojej Obecności", kindredSpirits: "RSVP",
+          nameLabel: "Imię (Główne)", emailLabel: "Email", songLabel: "Piosenka",
+          guestCountLabel: "Liczba Gości", otherGuestsLabel: "Imiona Osób Towarzyszących",
+          accept: "Z Radością Przyjmuję", decline: "Z Żalem Odmawiam", send: "Potwierdź", thanks: "Dziękujemy. Do zobaczenia.",
+          venueNav: "Miejsce", guestbookNav: "Księga", guideNav: "Info", rsvp: "RSVP"
         }
       };
 
-      function applyLanguage(lang) {
-        const dict = translations[lang] || translations.en;
-        localStorage.setItem('lang', lang);
-        document.documentElement.lang = lang;
+      langSelect.addEventListener('change', (e) => {
+        const t = translations[e.target.value];
+        document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t[el.dataset.i18n]);
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => el.placeholder = t[el.dataset.i18nPlaceholder]);
+      });
 
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-          const key = el.getAttribute('data-i18n');
-          if (dict[key] != null) el.textContent = dict[key];
-        });
+      // 7. Guestbook
+      const guestForm = document.getElementById("guestbookForm");
+      const guestList = document.getElementById("guestList");
+      
+      const loadGuestbook = () => {
+        const entries = JSON.parse(localStorage.getItem('wedding_guestbook') || '[]');
+        if (entries.length === 0) {
+          guestList.innerHTML = '<p class="text-xs uppercase tracking-widest opacity-40">Be the first to sign...</p>';
+          return;
+        }
+        guestList.innerHTML = entries.map(e => `
+          <div class="border-b border-black/5 dark:border-white/5 pb-4">
+            <p class="font-serif text-xl italic mb-2">"${e.msg}"</p>
+            <p class="font-sans text-[10px] uppercase tracking-widest opacity-60">— ${e.name} ${e.from ? `from ${e.from}` : ''}</p>
+          </div>
+        `).join('');
+      };
+      
+      guestForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const fd = new FormData(guestForm);
+        const entry = {
+          name: fd.get('guestName'),
+          from: fd.get('guestFrom'),
+          msg: fd.get('guestMessage'),
+          date: new Date().toISOString()
+        };
+        const entries = JSON.parse(localStorage.getItem('wedding_guestbook') || '[]');
+        entries.unshift(entry);
+        localStorage.setItem('wedding_guestbook', JSON.stringify(entries));
+        guestForm.reset();
+        loadGuestbook();
+      });
+      loadGuestbook();
 
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-          const key = el.getAttribute('data-i18n-placeholder');
-          if (dict[key] != null) el.setAttribute('placeholder', dict[key]);
-        });
-      }
-
-      const savedLang = localStorage.getItem('lang');
-      const initial = (savedLang === 'en' || savedLang === 'es' || savedLang === 'pl') ? savedLang : 'en';
-      langSelect.value = initial;
-      applyLanguage(initial);
-
-      langSelect.addEventListener('change', (e) => applyLanguage(e.target.value));
-
-      // Optional GSAP (non-blocking)
-      setTimeout(() => {
-        if (!window.gsap) return;
-        if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
-
-        gsap.to("#hero-image", {
-          scrollTrigger: { trigger: "body", start: "top top", end: "bottom top", scrub: true },
-          y: 140, opacity: 0.35, scale: 1.08, ease: "none"
-        });
-
-        document.querySelectorAll(".scroll-trigger").forEach((el) => {
-          gsap.fromTo(el, { y: 40, opacity: 0 }, {
-            scrollTrigger: { trigger: el, start: "top 80%" },
-            y: 0, opacity: 1, duration: 1.05, ease: "power3.out"
-          });
-        });
-      }, 0);
-
-      // RSVP submit
+      // 8. RSVP
       const form = document.getElementById('rsvpForm');
-      const successMsg = document.getElementById('successMessage');
+      const status = document.getElementById('formStatus');
+      
       form.addEventListener('submit', (e) => {
         e.preventDefault();
-        form.style.display = 'none';
-        successMsg.classList.remove('hidden');
+        const btn = form.querySelector('button');
+        const originalText = btn.innerText;
+        btn.innerText = "...";
+        btn.disabled = true;
+
+        const formData = new FormData(form);
+        
+        if (GOOGLE_SCRIPT_URL.includes("INSERT")) {
+           setTimeout(() => {
+             status.textContent = "Thank you. We'll see you there.";
+             status.style.opacity = 1;
+             form.reset();
+             btn.innerText = originalText;
+             btn.disabled = false;
+           }, 1000);
+           return;
+        }
+
+        fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData })
+          .then(() => {
+            status.textContent = "Thank you. We'll see you there.";
+            status.style.opacity = 1;
+            form.reset();
+          })
+          .catch(() => { status.textContent = "Error. Please try again."; status.style.opacity = 1; })
+          .finally(() => { btn.innerText = originalText; btn.disabled = false; });
       });
+
     });
   </script>
 </body>
